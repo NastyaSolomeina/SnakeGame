@@ -8,6 +8,9 @@ import java.awt.event.ActionListener;
 
 public class Main implements ActionListener{
 
+    //Настя, смотри!
+    //Гитхуб работает!
+
     private Board board;
     private Timer timer;
 
