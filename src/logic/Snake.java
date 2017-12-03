@@ -119,7 +119,7 @@ public class Snake {
 
         if (poisonTime == 0){
             isPoisoned = false;
-            grid.changeIsPoisoned(false);
+            grid.changeIsPoisoned_1(false);
         }else{
             poisonTime--;
         }
@@ -165,7 +165,13 @@ public class Snake {
             setJoints(getLen()+1, p);
             return;
         }
-        if (grid.itIscellWithSnake(head.getX(), head.getY())) {
+        if (grid.itIscellWithSnake1(head.getX(), head.getY())) {
+            if ((head.equals(p)) && (p!=tail.peek())){
+                return;
+            }
+            itIsLife = false;
+        }
+        if (grid.itIscellWithSnake2(head.getX(), head.getY())) {
             if ((head.equals(p)) && (p!=tail.peek())){
                 return;
             }
@@ -175,7 +181,7 @@ public class Snake {
             isPoisoned = true;
             poisonTime = config.getPoisonTime();
             grid.setAmanita(null);
-            grid.changeIsPoisoned(true);
+            grid.changeIsPoisoned_1(true);
         }
     }
 }

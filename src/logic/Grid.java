@@ -8,29 +8,42 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 
 public class Grid {
-    public enum obj{ HEAD, TAIL, FOOD, WALL, EMPTY, AMANITA }
+    public enum obj{ HEAD1, HEAD2, TAIL1, TAIL2, FOOD, WALL, EMPTY, AMANITA }
 
     private Configuration config;
     private obj[][] grid;
 
-    private Point head;
-    private Point endTail;
+    private Point head_1;
+    private Point endTail_1;
+    private Point head_2;
+    private Point endTail_2;
     private Point food;
     private Point amanita;
     private ArrayList<Wall> walls = new ArrayList<Wall>();
-    private boolean snakeIsPoisoned = false;
+    private boolean snakeIsPoisoned_1 = false;
+    private boolean snakeIsPoisoned_2 = false;
 
-    public boolean isSnakeIsPoisoned(){ return snakeIsPoisoned; }
-    public void changeIsPoisoned(boolean b) { snakeIsPoisoned = b; }
+    public boolean isSnakeIsPoisoned_1(){ return snakeIsPoisoned_1; }
+    public void changeIsPoisoned_1(boolean b) { snakeIsPoisoned_1 = b; }
 
-    public Point getHead() {
-        return head;
+    public boolean isSnakeIsPoisoned_2(){ return snakeIsPoisoned_2; }
+    public void changeIsPoisoned_2(boolean b) { snakeIsPoisoned_2 = b; }
+
+    public Point getHead_1() {
+        return head_1;
     }
 
-    public Point getEndTail() {
-        return endTail;
+    public Point getEndTail_1() {
+        return endTail_1;
     }
 
+    public Point getHead_2() {
+        return head_2;
+    }
+
+    public Point getEndTail_2() {
+        return endTail_2;
+    }
     public ArrayList<Wall> getWalls() {
         return walls;
     }
@@ -43,8 +56,12 @@ public class Grid {
         return food;
     }
 
-    public void setEndTail(Point endTail) {
-        this.endTail = endTail;
+    public void setEndTail_1(Point endTail) {
+        this.endTail_1 = endTail;
+    }
+
+    public void setEndTail_2(Point endTail) {
+        this.endTail_2 = endTail;
     }
 
     public int getWeidth(){ return grid[0].length; }
@@ -52,8 +69,9 @@ public class Grid {
 
     public obj[][] getGrid(){ return grid; }
 
-    public void setHead(Point p){ head = p; }
+    public void setHead_1(Point p){ head_1 = p; }
 
+    public void setHead_2(Point p){ head_2 = p; }
     public Grid(Configuration config){
         this.config = config;
         grid = new obj[config.getBoardHeight()][config.getBoardWidth()];
@@ -65,29 +83,50 @@ public class Grid {
         }
     }
 
-    public void setSnake(Point newHead, Point newEndTail){
-        grid[head.getY()][head.getX()] = obj.TAIL;
-        head = newHead;
+    public void setSnake_1(Point newHead, Point newEndTail){
+        grid[head_1.getY()][head_1.getX()] = obj.TAIL1;
+        head_1 = newHead;
 
-        if (endTail != null) {
-            grid[endTail.getY()][endTail.getX()] = obj.EMPTY;
+        if (endTail_1 != null) {
+            grid[endTail_1.getY()][endTail_1.getX()] = obj.EMPTY;
         }
-        grid[head.getY()][head.getX()] = obj.HEAD;
-        endTail = newEndTail;
+        grid[head_1.getY()][head_1.getX()] = obj.HEAD1;
+        endTail_1 = newEndTail;
     }
 
-    public void initialSnake(Snake snake){
-        head = snake.getHead();
-        endTail = snake.getTail().peek();
-        grid[head.getY()][head.getX()] = obj.HEAD;
+    public void initialSnake_1(Snake snake){
+        head_1 = snake.getHead();
+        endTail_1 = snake.getTail().peek();
+        grid[head_1.getY()][head_1.getX()] = obj.HEAD1;
         for (Point item : snake.getTail()) {
-            grid[item.getY()][item.getX()] = obj.TAIL;
+            grid[item.getY()][item.getX()] = obj.TAIL1;
         }
     }
+    public void setSnake_2(Point newHead, Point newEndTail){
+        grid[head_2.getY()][head_2.getX()] = obj.TAIL2;
+        head_2 = newHead;
 
+        if (endTail_2 != null) {
+            grid[endTail_2.getY()][endTail_2.getX()] = obj.EMPTY;
+        }
+        grid[head_2.getY()][head_2.getX()] = obj.HEAD2;
+        endTail_2 = newEndTail;
+    }
+
+    public void initialSnake_2(Snake snake){
+        head_2 = snake.getHead();
+        endTail_2 = snake.getTail().peek();
+        grid[head_2.getY()][head_2.getX()] = obj.HEAD2;
+        for (Point item : snake.getTail()) {
+            grid[item.getY()][item.getX()] = obj.TAIL2;
+        }
+    }
     public void setFood(Point f){
         if (!(food == null)){
-            if (!food.equals(head)){
+            if (!food.equals(head_1)){
+                grid[food.getY()][food.getX()] = obj.EMPTY;
+            }
+            else if (!food.equals(head_2)){
                 grid[food.getY()][food.getX()] = obj.EMPTY;
             }
         }
@@ -122,8 +161,12 @@ public class Grid {
     public boolean itIscellWithWall(int x, int y){
         return (grid[y][x] == obj.WALL);
     }
-    public boolean itIscellWithSnake(int x, int y){
-        return (grid[y][x] == obj.TAIL || grid[y][x] == obj.HEAD);
+    public boolean itIscellWithSnake1(int x, int y){
+        return (grid[y][x] == obj.TAIL1 || grid[y][x] == obj.HEAD1);
+    }
+
+    public boolean itIscellWithSnake2(int x, int y){
+        return (grid[y][x] == obj.TAIL2|| grid[y][x] == obj.HEAD2);
     }
 
     public void wallMoved(Wall wall, int i){
@@ -153,10 +196,14 @@ public class Grid {
                 return Color.GREEN;
             case AMANITA:
                 return Color.ORANGE;
-            case HEAD:
+            case HEAD1:
                 return Color.RED;
-            case TAIL:
+            case TAIL1:
                 return Color.BLUE;
+            case HEAD2:
+                return Color.YELLOW;
+            case TAIL2:
+                return Color.CYAN;
             case WALL:
                 return Color.WHITE;
         }
