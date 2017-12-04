@@ -25,7 +25,7 @@ public class MapTest {
         config = new Configuration();
         grid = new Grid(config);
         map = new Map(config, grid);
-        snake = map.getSnake_1();
+        snake = map.getSnake();
         walls = map.getWalls();
         food = map.getFood();
     }
@@ -40,7 +40,7 @@ public class MapTest {
         };
     }
 
-   /* @Test(dataProvider = "turnSnakeData")
+    @Test(dataProvider = "turnSnakeData")
     public void turnSnakeTest(int key, boolean left, boolean right, boolean down, boolean up, boolean turn) {
 
         snake.setMovingLeft(left);
@@ -50,7 +50,7 @@ public class MapTest {
         snake.setAlreadyTurned(turn);
 
         map.turnSnake(key);
-        Assert.assertTrue(map.getSnake_1().getAlreadyTurned());
+        Assert.assertTrue(map.getSnake().getAlreadyTurned());
     }
 
     @Test
@@ -69,9 +69,9 @@ public class MapTest {
         snake.setHead(new Point(2, 5));
         food.setLocation(new Point(2, 5));
         Assert.assertTrue(map.checkSnakeAteFood());
-    }*/
+    }
 
-    /*@Test
+    @Test
     public void moveSnakeEatNotAllWallTest(){
         snake.setHead(new Point(2, 5));
         snake.setItIsLife(true);
@@ -122,5 +122,5 @@ public class MapTest {
         map.setTick(10);
         map.move();
         Assert.assertEquals(map.getTick(), 11);
-    }*/
+    }
 }

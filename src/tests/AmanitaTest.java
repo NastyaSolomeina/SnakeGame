@@ -16,7 +16,7 @@ public class AmanitaTest {
     private Grid.obj[][] grid = gridEx.getGrid();
     private Amanita amanita = new Amanita(gridEx, config);
 
-    /*@Test
+    @Test
     public void updatePositionOfAmanitaPoisonedTrueTest(){
         gridEx.changeIsPoisoned(true);
         amanita.setLifeTime(10);
@@ -31,7 +31,7 @@ public class AmanitaTest {
         amanita.updatePositionOfAmanita();
         Assert.assertEquals(amanita.getFreq(), 9);
     }
-*/
+
     @Test
     public void createTest(){
         amanita.setLocation(new Point(2, 5));

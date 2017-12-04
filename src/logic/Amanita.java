@@ -30,7 +30,7 @@ public class Amanita {
     }
 
     public void updatePositionOfAmanita(){
-        if (grid.isSnakeIsPoisoned_1() && grid.isSnakeIsPoisoned_1()){
+        if (grid.isSnakeIsPoisoned()){
             return;
         }
         if (freq != 0){

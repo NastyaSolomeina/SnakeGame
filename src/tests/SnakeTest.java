@@ -63,7 +63,7 @@ public class SnakeTest {
         snake.collideWithObjectInNextCell(new Point(2, 5));
         Assert.assertEquals(snake.getLen(), 2);
     }
-    /*@Test
+    @Test
     public void collideWithObjectInNextCellSnakeAndDontDieTest(){
         snake.setItIsLife(true);
         snake.setHead(new Point(2,5));
@@ -163,6 +163,6 @@ public class SnakeTest {
         snake.setPoisoned(true);
         snake.move();
         Assert.assertEquals(snake.isPoisoned(), false);
-    }*/
+    }
 }
 

@@ -22,7 +22,7 @@ public class GridTest {
     Point food;
     Point amanita;
 
-    /*@BeforeMethod
+    @BeforeMethod
     public void inicialisation(){
         config = new Configuration();
         grid = new Grid(config);
@@ -32,9 +32,9 @@ public class GridTest {
         walls = grid.getWalls();
         food = grid.getFood();
         amanita = grid.getAmanita();
-    }*/
+    }
 
-    /*@DataProvider(name = "getColorObjectData")
+    @DataProvider(name = "getColorObjectData")
     public Object[][] getColorObjectData() {
         return new Object[][]{
                 {Grid.obj.FOOD, Color.GREEN},
@@ -51,7 +51,7 @@ public class GridTest {
         grid.getGrid()[5][2] = obj;
         Assert.assertEquals(grid.getColorObject(2, 5), expColor);
     }
-*/
+
     @Test
     public void setAmanitaLocNullTest(){
         grid.setAmanita(new Point(2, 5));
@@ -82,7 +82,7 @@ public class GridTest {
         grid.setFood(new Point(2, 5));
         Assert.assertEquals(grid.getGrid()[5][2], Grid.obj.FOOD);
     }
-   /* @Test
+    @Test
     public void setFoodFoodIsNullTest(){
         grid.setFood(new Point(2, 5));
 
@@ -106,5 +106,5 @@ public class GridTest {
         grid.setEndTail(new Point(3, 5));
         grid.setSnake(new Point(1, 5), new Point(2, 5));
         Assert.assertEquals(grid.getGrid()[5][2], Grid.obj.TAIL);
-    }*/
+    }
 }
