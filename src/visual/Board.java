@@ -17,7 +17,7 @@ public class Board extends JPanel {
     private Grid grid;
 
     public int getSpeed(){ return config.getSpeedTick(); }
-    public boolean snakeIsLife(){return map.snakeIsLife();}
+    public boolean snakeIsLife(){return map.snake_1IsLife();}
 
     public Board(Configuration config) {
 
@@ -38,7 +38,7 @@ public class Board extends JPanel {
 
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if (map.snakeIsLife()) {
+        if (map.snake_1IsLife() && map.snake_2IsLife()) {
             draw(g);
             printScore(g);
             printParty(g);
@@ -71,12 +71,12 @@ public class Board extends JPanel {
     }
 
     boolean itIsOval(Color col){
-        return (col == Color.RED || col == Color.BLUE);
+        return (col == Color.RED || col == Color.BLUE || col == Color.YELLOW || col == Color.CYAN);
     }
 
     void printScore(Graphics g) {
 
-        String message = "Score: " + map.getScore();
+        String message = "Score: " + map.getScore_1();
 
         Font font = new Font("Times New Roman", Font.BOLD, 25);
 
@@ -90,7 +90,7 @@ public class Board extends JPanel {
 
         String message = "PoisonTime: ";
 
-        if (map.snakeIsPoisoned()){
+        if (map.snake_1IsPoisoned() && map.snake_2IsPoisoned()){
             message += map.getPoisonTime();
         } else {
             message += "Off";
@@ -110,9 +110,17 @@ public class Board extends JPanel {
         String message = "Game over";
         g.setColor(Color.red);
 
-        if (map.isYouWin()){
-            message = "You Win( ate all the walls )";
+        if (map.isPlayer1Win()){
+            message = "Player 1 Win ";
             g.setColor(Color.green);
+        }
+        if (map.isPlayer2Win()){
+            message = "Player 2 Win ";
+            g.setColor(Color.green);
+        }
+        if(map.isPlayer1Win() && map.isPlayer2Win()){
+            message = "Dead heat";
+            g.setColor(Color.pink);
         }
 
         Font font = new Font("Times New Roman", Font.BOLD, 25);
@@ -123,14 +131,18 @@ public class Board extends JPanel {
         g.drawString(message, (config.getWidthPS() - metrics.stringWidth(message)) / 2,
                config.getHeightPS() / 2);
 
-        String pointsCount = "Your result: " + map.getScore();
+        String points1Count = "Player 1 result: " + map.getScore_1();
 
-        g.drawString(pointsCount, (config.getWidthPS() - metrics.stringWidth(message)) / 2,
+        g.drawString(points1Count, (config.getWidthPS() - metrics.stringWidth(message)) / 2,
                 config.getHeightPS() / 2 + 50);
+        String points2Count = "Player 2 result: " + map.getScore_2();
+
+        g.drawString(points2Count, (config.getWidthPS() - metrics.stringWidth(message)) / 2,
+                config.getHeightPS() / 2 + 100);
         String newGame = "Press Enter for new game";
 
         g.drawString(newGame, (config.getWidthPS() - metrics.stringWidth(message)) / 2,
-                config.getHeightPS() / 2 + 100);
+                config.getHeightPS() / 2 + 150);
     }
 
     public void tick(){
@@ -148,7 +160,8 @@ public class Board extends JPanel {
 
                 map.initialMap();
             }
-            map.turnSnake(key);
+            map.turnSnake1(key);
+            map.turnSnake2(key);
         }
     }
 
