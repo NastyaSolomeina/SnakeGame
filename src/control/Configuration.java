@@ -9,7 +9,7 @@ public class Configuration {
 
     private int speedFood = 2;
     private int speedWall = 3;
-    private int speedTick = 500;
+    private int speedTick = 280;
     private int lifeTimeAminata = 50;
     private int frequencyOfOccurrenceAminata = 100;
     private int poisonTime = 100;
