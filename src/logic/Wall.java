@@ -18,16 +18,21 @@ public class Wall {
     public Point getEnd() { return new Point(end.getX(),end.getY()); }
     public Point getDir() { return new Point(dir.getX(),dir.getY()); }
 
-    public void setStart(Point st){ start = new Point(st);}
-    public void setEnd(Point end){ this.end = new Point(end);}
-
-    public Wall(Wall wall){
+    public Wall(Wall wall) {
         start = wall.getStart();
         end = wall.getEnd();
         dir = wall.getDir();
     }
 
-    public void changeDir(){
+    public void setStart(Point st) {
+        start = new Point(st);
+    }
+
+    public void setEnd(Point end) {
+        this.end = new Point(end);
+    }
+
+    public void changeDir() {
         dir.setX(-dir.getX());
         dir.setY(-dir.getY());
     }

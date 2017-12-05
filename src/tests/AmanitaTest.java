@@ -1,12 +1,10 @@
 package tests;
-import control.Point;
-import logic.Grid;
+
 import control.Configuration;
-import org.testng.Assert;
-import logic.Wall;
+import control.Point;
 import logic.Amanita;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.DataProvider;
+import logic.Grid;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class AmanitaTest {
@@ -16,24 +14,24 @@ public class AmanitaTest {
     private Grid.obj[][] grid = gridEx.getGrid();
     private Amanita amanita = new Amanita(gridEx, config);
 
-    /*@Test
-    public void updatePositionOfAmanitaPoisonedTrueTest(){
-        gridEx.changeIsPoisoned(true);
+    @Test
+    public void updatePositionOfAmanitaPoisonedTrueTest() {
+        gridEx.setIsFirstPoisoned(true);
         amanita.setLifeTime(10);
         amanita.updatePositionOfAmanita();
         Assert.assertEquals(amanita.getLifeTime(), 10);
     }
 
     @Test
-    public void updatePositionOfAmanitaTest(){
-        gridEx.changeIsPoisoned(false);
+    public void updatePositionOfAmanitaTest() {
+        gridEx.setIsFirstPoisoned(false);
         amanita.setFreq(10);
         amanita.updatePositionOfAmanita();
         Assert.assertEquals(amanita.getFreq(), 9);
     }
-*/
+
     @Test
-    public void createTest(){
+    public void createTest() {
         amanita.setLocation(new Point(2, 5));
         Point oldAmanita = amanita.getLocation();
         amanita.create();

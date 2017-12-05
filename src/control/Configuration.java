@@ -14,10 +14,11 @@ public class Configuration {
     private int frequencyOfOccurrenceAminata = 100;
     private int poisonTime = 100;
 
-    public boolean foodIsMove(int tick){
+    public boolean foodIsMove(int tick) {
         return (tick % speedFood == 0);
     }
-    public boolean wallIsMove(int tick){
+
+    public boolean wallIsMove(int tick) {
         return (tick % speedWall == 0);
     }
 

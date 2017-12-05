@@ -14,34 +14,50 @@ public class Amanita {
     private int  lifeTime;
     private int freq;
 
-    public int getFreq(){ return freq; }
-    public void setFreq(int val){ freq = val; }
-
-    public int getLifeTime(){ return lifeTime; }
-    public void setLifeTime(int val){ lifeTime = val; }
-    public Point getLocation(){ return location; }
-    public void setLocation(Point val){ location = val; }
-
-    public Amanita(Grid gr, Configuration c){
+    public Amanita(Grid gr, Configuration c) {
         grid = gr;
         config = c;
         lifeTime = config.getLifeTimeAminata();
         freq = config.getFrequencyOfOccurrenceAminata();
     }
 
-    public void updatePositionOfAmanita(){
-        if (grid.isSnakeIsPoisoned_1() && grid.isSnakeIsPoisoned_1()){
+    public int getFreq() {
+        return freq;
+    }
+
+    public void setFreq(int val) {
+        freq = val;
+    }
+
+    public int getLifeTime() {
+        return lifeTime;
+    }
+
+    public void setLifeTime(int val) {
+        lifeTime = val;
+    }
+
+    public Point getLocation() {
+        return location;
+    }
+
+    public void setLocation(Point val) {
+        location = val;
+    }
+
+    public void updatePositionOfAmanita() {
+        if (grid.getIsFirstPoisoned() && grid.getIsFirstPoisoned()) {
             return;
         }
-        if (freq != 0){
+        if (freq != 0) {
             freq--;
             return;
         }
-        if (location == null){
+        if (location == null) {
             create();
         }
 
-        if (lifeTime == 0){
+        if (lifeTime == 0) {
             location = null;
             grid.setAmanita(location);
             lifeTime = config.getLifeTimeAminata();
@@ -49,18 +65,18 @@ public class Amanita {
             return;
         }
 
-        if( !grid.itIscellWithAmanita(location.getX(), location.getY())){
+        if (!grid.itIsCellWithAmanita(location.getX(), location.getY())) {
             location = null;
         }
 
         lifeTime--;
     }
 
-    public void create(){
-        int newX = random.nextInt(grid.getWeidth());
+    public void create() {
+        int newX = random.nextInt(grid.getWidth());
         int newY = random.nextInt(grid.getHeight());
 
-        if (!grid.cellIsEmpty(newX, newY)){
+        if (!grid.cellIsEmpty(newX, newY)) {
             create();
         }
 

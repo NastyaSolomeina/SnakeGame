@@ -4,129 +4,147 @@ import control.Configuration;
 import control.Point;
 
 import java.awt.*;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 
 public class Grid {
     public enum obj{ HEAD1, HEAD2, TAIL1, TAIL2, FOOD, WALL, EMPTY, AMANITA }
 
-    private Configuration config;
     private obj[][] grid;
 
-    private Point head_1;
-    private Point endTail_1;
-    private Point head_2;
-    private Point endTail_2;
+    private Point firstHead;
+    private Point firstTail;
+    private Point secondHead;
+    private Point secondTail;
     private Point food;
     private Point amanita;
-    private ArrayList<Wall> walls = new ArrayList<Wall>();
-    private boolean snakeIsPoisoned_1 = false;
-    private boolean snakeIsPoisoned_2 = false;
+    private ArrayList<Wall> walls = new ArrayList<>();
+    private boolean isFirstPoisoned = false;
+    private boolean isSecondPoisoned = false;
 
-    public boolean isSnakeIsPoisoned_1(){ return snakeIsPoisoned_1; }
-    public void changeIsPoisoned_1(boolean b) { snakeIsPoisoned_1 = b; }
-
-    public boolean isSnakeIsPoisoned_2(){ return snakeIsPoisoned_2; }
-    public void changeIsPoisoned_2(boolean b) { snakeIsPoisoned_2 = b; }
-
-    public Point getHead_1() {
-        return head_1;
-    }
-
-    public Point getEndTail_1() {
-        return endTail_1;
-    }
-
-    public Point getHead_2() {
-        return head_2;
-    }
-
-    public Point getEndTail_2() {
-        return endTail_2;
-    }
-    public ArrayList<Wall> getWalls() {
-        return walls;
-    }
-
-    public Point getAmanita() {
-        return amanita;
-    }
-
-    public Point getFood() {
-        return food;
-    }
-
-    public void setEndTail_1(Point endTail) {
-        this.endTail_1 = endTail;
-    }
-
-    public void setEndTail_2(Point endTail) {
-        this.endTail_2 = endTail;
-    }
-
-    public int getWeidth(){ return grid[0].length; }
-    public int getHeight(){ return grid.length; }
-
-    public obj[][] getGrid(){ return grid; }
-
-    public void setHead_1(Point p){ head_1 = p; }
-
-    public void setHead_2(Point p){ head_2 = p; }
-    public Grid(Configuration config){
-        this.config = config;
+    public Grid(Configuration config) {
         grid = new obj[config.getBoardHeight()][config.getBoardWidth()];
-
-        for (int i = 0; i < config.getBoardHeight(); i++){
-            for (int j = 0; j < config.getBoardWidth(); j++){
+        for (int i = 0; i < config.getBoardHeight(); i++) {
+            for (int j = 0; j < config.getBoardWidth(); j++) {
                 grid[i][j] = obj.EMPTY;
             }
         }
     }
 
-    public void setSnake_1(Point newHead, Point newEndTail){
-        grid[head_1.getY()][head_1.getX()] = obj.TAIL1;
-        head_1 = newHead;
-
-        if (endTail_1 != null) {
-            grid[endTail_1.getY()][endTail_1.getX()] = obj.EMPTY;
-        }
-        grid[head_1.getY()][head_1.getX()] = obj.HEAD1;
-        endTail_1 = newEndTail;
+    public boolean getIsFirstPoisoned() {
+        return isFirstPoisoned;
     }
 
-    public void initialSnake_1(Snake snake){
-        head_1 = snake.getHead();
-        endTail_1 = snake.getTail().peek();
-        grid[head_1.getY()][head_1.getX()] = obj.HEAD1;
+    public void setIsFirstPoisoned(boolean b) {
+        isFirstPoisoned = b;
+    }
+
+    public boolean getIsSecondPoisoned() {
+        return isSecondPoisoned;
+    }
+
+    public void setIsSecondPoisoned(boolean b) {
+        isSecondPoisoned = b;
+    }
+
+    public Point getFirstHead() {
+        return firstHead;
+    }
+
+    public void setFirstHead(Point p) {
+        firstHead = p;
+    }
+
+    public Point getFirstTail() {
+        return firstTail;
+    }
+
+    public void setFirstTail(Point endTail) {
+        this.firstTail = endTail;
+    }
+
+    public Point getSecondHead() {
+        return secondHead;
+    }
+
+    public void setSecondHead(Point p) {
+        secondHead = p;
+    }
+
+    public Point getSecondTail() {
+        return secondTail;
+    }
+
+    public ArrayList<Wall> getWalls() {
+        return walls;
+    }
+    public Point getAmanita() {
+        return amanita;
+    }
+    public Point getFood() {
+        return food;
+    }
+
+    public void setSecondTail(Point endTail) {
+        this.secondTail = endTail;
+    }
+
+    public obj[][] getGrid() {
+        return grid;
+    }
+
+    public int getWidth() {
+        return grid[0].length;
+    }
+
+    public int getHeight() {
+        return grid.length;
+    }
+
+    public void setFirstSnake(Point newHead, Point newEndTail) {
+        grid[firstHead.getY()][firstHead.getX()] = obj.TAIL1;
+        firstHead = newHead;
+
+        if (firstTail != null) {
+            grid[firstTail.getY()][firstTail.getX()] = obj.EMPTY;
+        }
+        grid[firstHead.getY()][firstHead.getX()] = obj.HEAD1;
+        firstTail = newEndTail;
+    }
+
+    public void initialFirstSnake(Snake snake) {
+        firstHead = snake.getHead();
+        firstTail = snake.getTail().peek();
+        grid[firstHead.getY()][firstHead.getX()] = obj.HEAD1;
         for (Point item : snake.getTail()) {
             grid[item.getY()][item.getX()] = obj.TAIL1;
         }
     }
-    public void setSnake_2(Point newHead, Point newEndTail){
-        grid[head_2.getY()][head_2.getX()] = obj.TAIL2;
-        head_2 = newHead;
 
-        if (endTail_2 != null) {
-            grid[endTail_2.getY()][endTail_2.getX()] = obj.EMPTY;
+    public void setSecondSnake(Point newHead, Point newEndTail) {
+        grid[secondHead.getY()][secondHead.getX()] = obj.TAIL2;
+        secondHead = newHead;
+
+        if (secondTail != null) {
+            grid[secondTail.getY()][secondTail.getX()] = obj.EMPTY;
         }
-        grid[head_2.getY()][head_2.getX()] = obj.HEAD2;
-        endTail_2 = newEndTail;
+        grid[secondHead.getY()][secondHead.getX()] = obj.HEAD2;
+        secondTail = newEndTail;
     }
 
-    public void initialSnake_2(Snake snake){
-        head_2 = snake.getHead();
-        endTail_2 = snake.getTail().peek();
-        grid[head_2.getY()][head_2.getX()] = obj.HEAD2;
+    public void initialSecondSnake(Snake snake) {
+        secondHead = snake.getHead();
+        secondTail = snake.getTail().peek();
+        grid[secondHead.getY()][secondHead.getX()] = obj.HEAD2;
         for (Point item : snake.getTail()) {
             grid[item.getY()][item.getX()] = obj.TAIL2;
         }
     }
-    public void setFood(Point f){
-        if (!(food == null)){
-            if (!food.equals(head_1)){
+
+    public void setFood(Point f) {
+        if (!(food == null)) {
+            if (!food.equals(firstHead)) {
                 grid[food.getY()][food.getX()] = obj.EMPTY;
-            }
-            else if (!food.equals(head_2)){
+            } else if (!food.equals(secondHead)) {
                 grid[food.getY()][food.getX()] = obj.EMPTY;
             }
         }
@@ -135,12 +153,12 @@ public class Grid {
     }
 
 
-    public void addNewWall(Wall wall){
+    public void addNewWall(Wall wall) {
         walls.add(new Wall(wall));
         redrawWall(wall, obj.WALL);
     }
 
-    public void redrawWall(Wall wall, obj o){
+    public void redrawWall(Wall wall, obj o) {
         for (int x = wall.getStart().getX(); x < wall.getEnd().getX() + 1; x++) {
             for (int y = wall.getStart().getY(); y < wall.getEnd().getY() + 1; y++) {
                 grid[y][x] = o;
@@ -148,41 +166,44 @@ public class Grid {
         }
     }
 
-    public boolean cellIsEmpty(int x, int y){
+    public boolean cellIsEmpty(int x, int y) {
         return (grid[y][x] == obj.EMPTY);
     }
 
-    public boolean itIscellWithFood(int x, int y){
+    public boolean itIsCellWithFood(int x, int y) {
         return (grid[y][x] == obj.FOOD);
     }
-    public boolean itIscellWithAmanita(int x, int y){
+
+    public boolean itIsCellWithAmanita(int x, int y) {
         return (grid[y][x] == obj.AMANITA);
     }
-    public boolean itIscellWithWall(int x, int y){
+
+    public boolean itIsCellWithWall(int x, int y) {
         return (grid[y][x] == obj.WALL);
     }
-    public boolean itIscellWithSnake1(int x, int y){
+
+    public boolean itIsCellWithSnake1(int x, int y) {
         return (grid[y][x] == obj.TAIL1 || grid[y][x] == obj.HEAD1);
     }
 
-    public boolean itIscellWithSnake2(int x, int y){
+    public boolean itIscellWithSnake2(int x, int y) {
         return (grid[y][x] == obj.TAIL2|| grid[y][x] == obj.HEAD2);
     }
 
-    public void wallMoved(Wall wall, int i){
+    public void wallMoved(Wall wall, int i) {
         redrawWall(walls.get(i), obj.EMPTY);
         walls.set(i, new Wall(wall));
         redrawWall(walls.get(i), obj.WALL);
 
     }
 
-    public void removeWall(int i){
+    public void removeWall(int i) {
         walls.remove(i);
     }
 
 
-    public void setAmanita(Point loc){
-        if (loc != null){
+    public void setAmanita(Point loc) {
+        if (loc != null) {
             grid[loc.getY()][loc.getX()] = obj.AMANITA;
             amanita = loc;
         } else{
@@ -190,8 +211,8 @@ public class Grid {
         }
     }
 
-    public Color getColorObject(int x, int y){
-        switch (grid[y][x]){
+    public Color getColorObject(int x, int y) {
+        switch (grid[y][x]) {
             case FOOD:
                 return Color.GREEN;
             case AMANITA:

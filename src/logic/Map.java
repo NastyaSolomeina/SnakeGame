@@ -1,73 +1,109 @@
 package logic;
 
 import control.Configuration;
-import java.awt.event.KeyEvent;
-
 import control.Point;
+
+import java.awt.event.KeyEvent;
 
 public class Map {
     private Configuration config;
     private Grid grid;
 
-    private Snake snake_1;
-    private Snake snake_2;
+    private Snake firstSnake;
+    private Snake secondSnake;
     private Food food;
     private ArrayWalls walls;
-    private Amanita aminata;
+    private Amanita amanita;
 
     private boolean player1Win = false;
     private boolean player2Win = false;
     private int score_1 = 0;
     private int score_2 = 0;
-    int tick = 0;
+    private int tick = 0;
 
-    public boolean isPlayer1Win(){ return player1Win;}
+    public Map(Configuration conf, Grid gr) {
+        config = conf;
+        grid = gr;
+        firstSnake = new Snake(grid, config);
+        secondSnake = new Snake(grid, config);
+        food = new Food(grid, config);
+        walls = new ArrayWalls(grid, config);
+        amanita = new Amanita(grid, config);
+    }
 
-    public boolean isPlayer2Win() {
+    public boolean isFirstPlayerWon() {
+        return player1Win;
+    }
+
+    public boolean isSecondPlayerWon() {
         return player2Win;
     }
 
-    public boolean snake_1IsPoisoned(){return snake_1.isPoisoned(); }
-    public boolean snake_2IsPoisoned(){return snake_2.isPoisoned(); }
-    public int getPoisonTime() {return snake_1.getPoisonTime(); }
-    public ArrayWalls getWalls(){ return walls; }
-
-    public Map(Configuration conf, Grid gr){
-        config = conf;
-        grid = gr;
-        snake_1 = new Snake(grid, config);
-        snake_2 = new Snake(grid, config);
-        food = new Food(grid, config);
-        walls = new ArrayWalls(grid, config);
-        aminata = new Amanita(grid, config);
+    public boolean isFirstSnakePoisoned() {
+        return firstSnake.isPoisoned();
     }
 
-    public boolean snake_1IsLife(){ return snake_1.getItIsLife(); }
-    public boolean snake_2IsLife(){ return snake_2.getItIsLife(); }
-    public int getScore_1() { return score_1; }
-    public int getScore_2() { return score_2; }
-    public Snake getSnake_1(){ return snake_1; }
-    public Snake getSnake_2(){ return snake_2; }
-    public Food getFood(){ return food; }
-    public int getTick(){ return tick; }
+    public boolean isSecondSnakePoisoned() {
+        return secondSnake.isPoisoned();
+    }
+
+    public int getPoisonTime() {
+        return firstSnake.getPoisonTime();
+    }
+
+    public ArrayWalls getWalls() {
+        return walls;
+    }
+
+    public boolean isFirstSnakeAlive() {
+        return firstSnake.getItIsLife();
+    }
+
+    public boolean isSecondSnakeAlive() {
+        return secondSnake.getItIsLife();
+    }
+
+    public int getFirstPlayerScore() {
+        return score_1;
+    }
+
+    public int getSecondPlayerScore() {
+        return score_2;
+    }
+
+    public Snake getFirstSnake() {
+        return firstSnake;
+    }
+
+    public Snake getSecondSnake() {
+        return secondSnake;
+    }
+
+    public Food getFood() {
+        return food;
+    }
+
+    public int getTick() {
+        return tick;
+    }
 
     public void setTick(int tick) {
         this.tick = tick;
     }
 
-    public void initialMap(){
-        snake_1.setHead(new Point(18, 10));
-        snake_1.setJoints(2, new Point(17, 10));
-        snake_1.setJoints(3, new Point(16, 10));
-        snake_1.setMovingRight(true);
+    public void initialMap() {
+        firstSnake.setHead(new Point(18, 10));
+        firstSnake.setJoints(2, new Point(17, 10));
+        firstSnake.setJoints(3, new Point(16, 10));
+        firstSnake.setMovingRight(true);
 
-        snake_2.setHead(new Point(18, 11));
-        snake_2.setJoints(2, new Point(17, 11));
-        snake_2.setJoints(3, new Point(16, 11));
-        snake_2.setMovingRight(true);
+        secondSnake.setHead(new Point(18, 11));
+        secondSnake.setJoints(2, new Point(17, 11));
+        secondSnake.setJoints(3, new Point(16, 11));
+        secondSnake.setMovingRight(true);
 
-        grid.initialSnake_1(snake_1);
-        grid.initialSnake_2(snake_2);
+        grid.initialFirstSnake(firstSnake);
+        grid.initialSecondSnake(secondSnake);
         food.setLocation(new Point(25, 15));
         grid.setFood(food.getLocation());
 
@@ -79,23 +115,23 @@ public class Map {
 
     }
 
-    public void move(){
-        aminata.updatePositionOfAmanita();
+    public void move() {
+        amanita.updatePositionOfAmanita();
 
-        Point p_1 = snake_1.move(); // возвращает удаленную из конца хвоста точку
-        if(!snake_1.getItIsLife()){
+        Point p_1 = firstSnake.move(); // возвращает удаленную из конца хвоста точку
+        if (!firstSnake.getItIsLife()) {
             player2Win = true;
             return;
         }
-        Point p_2 = snake_2.move(); // возвращает удаленную из конца хвоста точку
-        if(!snake_2.getItIsLife()){
+        Point p_2 = secondSnake.move(); // возвращает удаленную из конца хвоста точку
+        if (!secondSnake.getItIsLife()) {
             player1Win = true;
             return;
         }
-        if (checkSnake1AteWall()){
+        if (checkFirstSnakeAteWall()) {
             score_1 += 5;
-            if (walls.getCount() == 0){
-                if (score_1 > score_2){
+            if (walls.getCount() == 0) {
+                if (score_1 > score_2) {
                     player1Win = true;
                 }
                 else{
@@ -104,10 +140,10 @@ public class Map {
             }
 
         }
-        if (checkSnake2AteWall()){
+        if (checkSecondSnakeAteWall()) {
             score_2 += 5;
-            if (walls.getCount() == 0){
-                if (score_2 > score_1){
+            if (walls.getCount() == 0) {
+                if (score_2 > score_1) {
                     player2Win = true;
                 }
                 else{
@@ -115,16 +151,16 @@ public class Map {
                 }
             }
         }
-        if (checkSnake1AteFood()){
+        if (checkFirstSnakeAteFood()) {
             score_1 += 5;
             food.createFood();
         }
-        if (checkSnake2AteFood()){
+        if (checkSecondSnakeAteFood()) {
             score_2 += 5;
             food.createFood();
         }
-        grid.setSnake_1(snake_1.getHead(), p_1);
-        grid.setSnake_2(snake_2.getHead(), p_2);
+        grid.setFirstSnake(firstSnake.getHead(), p_1);
+        grid.setSecondSnake(secondSnake.getHead(), p_2);
         if (config.foodIsMove(tick)) {
             food.move();
         }
@@ -136,92 +172,97 @@ public class Map {
         tick++;
     }
 
-    public boolean checkSnake1AteFood(){
-        return (snake_1.getHead().equals(food.getLocation()));
+    public boolean checkFirstSnakeAteFood() {
+        return (firstSnake.getHead().equals(food.getLocation()));
     }
-    public boolean checkSnake2AteFood(){
-        return (snake_2.getHead().equals(food.getLocation()));
+
+    public boolean checkSecondSnakeAteFood() {
+        return (secondSnake.getHead().equals(food.getLocation()));
     }
-    public boolean checkSnake1AteWall(){
-        if (walls.getCount() == 0){
+
+    public boolean checkFirstSnakeAteWall() {
+        if (walls.getCount() == 0) {
             return false;
         }
 
-        int k = walls.wallNumberSnakeEats(snake_1.getHead());
+        int k = walls.wallNumberSnakeEats(firstSnake.getHead());
         return (k != -1);
     }
-    public boolean checkSnake2AteWall(){
-        if (walls.getCount() == 0){
+
+    public boolean checkSecondSnakeAteWall() {
+        if (walls.getCount() == 0) {
             return false;
         }
 
-        int k = walls.wallNumberSnakeEats(snake_2.getHead());
+        int k = walls.wallNumberSnakeEats(secondSnake.getHead());
         return (k != -1);
     }
-    public void turnSnake1(int key){
-        if ((key == KeyEvent.VK_LEFT) && (!snake_1.isMovingRight())
-                && !snake_1.getAlreadyTurned()) {
-            snake_1.setMovingLeft(true);
-            snake_1.setMovingUp(false);
-            snake_1.setMovingDown(false);
-            snake_1.setAlreadyTurned(true);
+
+    public void turnFirstSnake(int key) {
+        if ((key == KeyEvent.VK_LEFT) && (!firstSnake.isMovingRight())
+                && !firstSnake.getAlreadyTurned()) {
+            firstSnake.setMovingLeft(true);
+            firstSnake.setMovingUp(false);
+            firstSnake.setMovingDown(false);
+            firstSnake.setAlreadyTurned(true);
         }
 
-        if ((key == KeyEvent.VK_RIGHT) && (!snake_1.isMovingLeft())
-                && !snake_1.getAlreadyTurned()) {
-            snake_1.setMovingRight(true);
-            snake_1.setMovingUp(false);
-            snake_1.setMovingDown(false);
-            snake_1.setAlreadyTurned(true);
+        if ((key == KeyEvent.VK_RIGHT) && (!firstSnake.isMovingLeft())
+                && !firstSnake.getAlreadyTurned()) {
+            firstSnake.setMovingRight(true);
+            firstSnake.setMovingUp(false);
+            firstSnake.setMovingDown(false);
+            firstSnake.setAlreadyTurned(true);
         }
 
-        if ((key == KeyEvent.VK_UP) && (!snake_1.isMovingDown())
-                && !snake_1.getAlreadyTurned()) {
-            snake_1.setMovingUp(true);
-            snake_1.setMovingRight(false);
-            snake_1.setMovingLeft(false);
-            snake_1.setAlreadyTurned(true);
+        if ((key == KeyEvent.VK_UP) && (!firstSnake.isMovingDown())
+                && !firstSnake.getAlreadyTurned()) {
+            firstSnake.setMovingUp(true);
+            firstSnake.setMovingRight(false);
+            firstSnake.setMovingLeft(false);
+            firstSnake.setAlreadyTurned(true);
         }
 
-        if ((key == KeyEvent.VK_DOWN) && (!snake_1.isMovingUp())
-                && !snake_1.getAlreadyTurned()) {
-            snake_1.setMovingDown(true);
-            snake_1.setMovingRight(false);
-            snake_1.setMovingLeft(false);
-            snake_1.setAlreadyTurned(true);
+        if ((key == KeyEvent.VK_DOWN) && (!firstSnake.isMovingUp())
+                && !firstSnake.getAlreadyTurned()) {
+            firstSnake.setMovingDown(true);
+            firstSnake.setMovingRight(false);
+            firstSnake.setMovingLeft(false);
+            firstSnake.setAlreadyTurned(true);
         }
     }
-    public void turnSnake2(int key){
-        if ((key == KeyEvent.VK_A) && (!snake_2.isMovingRight())
-                && !snake_2.getAlreadyTurned()) {
-            snake_2.setMovingLeft(true);
-            snake_2.setMovingUp(false);
-            snake_2.setMovingDown(false);
-            snake_2.setAlreadyTurned(true);
+
+    public void turnSecondSnake(int key) {
+        if ((key == KeyEvent.VK_A) && (!secondSnake.isMovingRight())
+                && !secondSnake.getAlreadyTurned()) {
+            secondSnake.setMovingLeft(true);
+            secondSnake.setMovingUp(false);
+            secondSnake.setMovingDown(false);
+            secondSnake.setAlreadyTurned(true);
         }
 
-        if ((key == KeyEvent.VK_D) && (!snake_2.isMovingLeft())
-                && !snake_2.getAlreadyTurned()) {
-            snake_2.setMovingRight(true);
-            snake_2.setMovingUp(false);
-            snake_2.setMovingDown(false);
-            snake_2.setAlreadyTurned(true);
+        if ((key == KeyEvent.VK_D) && (!secondSnake.isMovingLeft())
+                && !secondSnake.getAlreadyTurned()) {
+            secondSnake.setMovingRight(true);
+            secondSnake.setMovingUp(false);
+            secondSnake.setMovingDown(false);
+            secondSnake.setAlreadyTurned(true);
         }
 
-        if ((key == KeyEvent.VK_W) && (!snake_2.isMovingDown())
-                && !snake_2.getAlreadyTurned()) {
-            snake_2.setMovingUp(true);
-            snake_2.setMovingRight(false);
-            snake_2.setMovingLeft(false);
-            snake_2.setAlreadyTurned(true);
+        if ((key == KeyEvent.VK_W) && (!secondSnake.isMovingDown())
+                && !secondSnake.getAlreadyTurned()) {
+            secondSnake.setMovingUp(true);
+            secondSnake.setMovingRight(false);
+            secondSnake.setMovingLeft(false);
+            secondSnake.setAlreadyTurned(true);
         }
 
-        if ((key == KeyEvent.VK_S) && (!snake_2.isMovingUp())
-                && !snake_2.getAlreadyTurned()) {
-            snake_2.setMovingDown(true);
-            snake_2.setMovingRight(false);
-            snake_2.setMovingLeft(false);
-            snake_2.setAlreadyTurned(true);
+        if ((key == KeyEvent.VK_S) && (!secondSnake.isMovingUp())
+                && !secondSnake.getAlreadyTurned()) {
+            secondSnake.setMovingDown(true);
+            secondSnake.setMovingRight(false);
+            secondSnake.setMovingLeft(false);
+            secondSnake.setAlreadyTurned(true);
         }
     }
 }

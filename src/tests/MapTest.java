@@ -4,7 +4,6 @@ import control.Configuration;
 import control.Point;
 import logic.*;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -21,11 +20,11 @@ public class MapTest {
     Food food;
 
     @BeforeMethod
-    public void inicialisation(){
+    public void initialization() {
         config = new Configuration();
         grid = new Grid(config);
         map = new Map(config, grid);
-        snake = map.getSnake_1();
+        snake = map.getFirstSnake();
         walls = map.getWalls();
         food = map.getFood();
     }
@@ -40,7 +39,7 @@ public class MapTest {
         };
     }
 
-   /* @Test(dataProvider = "turnSnakeData")
+    @Test(dataProvider = "turnSnakeData")
     public void turnSnakeTest(int key, boolean left, boolean right, boolean down, boolean up, boolean turn) {
 
         snake.setMovingLeft(left);
@@ -49,43 +48,46 @@ public class MapTest {
         snake.setMovingDown(down);
         snake.setAlreadyTurned(turn);
 
-        map.turnSnake(key);
-        Assert.assertTrue(map.getSnake_1().getAlreadyTurned());
+        map.turnFirstSnake(key);
+        Assert.assertTrue(map.getFirstSnake().getAlreadyTurned());
     }
 
     @Test
-    public void checkSnakeAteWallCountZeroTest(){
-        Assert.assertFalse(map.checkSnakeAteWall());
+    public void checkSnakeAteWallCountZeroTest() {
+        Assert.assertFalse(map.checkFirstSnakeAteWall());
     }
+
     @Test
-    public void checkSnakeAteWallCountTest(){
+    public void checkSnakeAteWallCountTest() {
         snake.setHead(new Point(2, 5));
         walls.add(new Wall(new Point(2,5), new Point(2,5), new Point(3, 2)));
-        Assert.assertTrue(map.checkSnakeAteWall());
+        Assert.assertTrue(map.checkFirstSnakeAteWall());
     }
 
     @Test
-    public void checkSnakeAteFoodTest(){
+    public void checkSnakeAteFoodTest() {
         snake.setHead(new Point(2, 5));
         food.setLocation(new Point(2, 5));
-        Assert.assertTrue(map.checkSnakeAteFood());
-    }*/
-
-    /*@Test
-    public void moveSnakeEatNotAllWallTest(){
+        Assert.assertTrue(map.checkFirstSnakeAteFood());
+    }
+/*
+    @Test
+    public void moveSnakeEatNotAllWallTest() {
         snake.setHead(new Point(2, 5));
         snake.setItIsLife(true);
         snake.setPoisoned(true);
         food.setLocation(new Point (10, 15));
         snake.setJoints(2, new Point(26, 10));
-        grid.setHead(new Point(2, 5));
+        grid.setFirstHead(new Point(2, 5));
+        grid.setSecondHead(new Point(12, 15));
         walls.add(new Wall(new Point(2,5), new Point(2,5), new Point(3, 2)));
-        int oldScore = map.getScore();
+        int oldScore = map.getFirstPlayerScore();
         map.move();
-        Assert.assertEquals(map.getScore(), oldScore + 5);
+        Assert.assertEquals(map.getFirstPlayerScore(), oldScore + 5);
     }
+    /*
     @Test
-    public void moveSnakeEatAllWallTest(){
+    public void moveSnakeEatAllWallTest() {
         snake.setHead(new Point(2, 5));
         snake.setItIsLife(true);
         snake.setPoisoned(true);
@@ -98,7 +100,7 @@ public class MapTest {
     }
 
     @Test
-    public void moveSnakeEatFoodTest(){
+    public void moveSnakeEatFoodTest() {
         snake.setHead(new Point(2, 5));
         snake.setItIsLife(true);
         snake.setPoisoned(true);
@@ -112,7 +114,7 @@ public class MapTest {
     }
 
     @Test
-    public void moveTickPlusesTest(){
+    public void moveTickPlusesTest() {
         snake.setHead(new Point(2, 5));
         snake.setItIsLife(true);
         snake.setPoisoned(true);

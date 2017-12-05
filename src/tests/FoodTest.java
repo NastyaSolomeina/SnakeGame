@@ -2,11 +2,12 @@ package tests;
 
 import control.Configuration;
 import control.Point;
+import logic.Food;
 import logic.Grid;
 import logic.Snake;
-import logic.Food;
 import org.testng.Assert;
-import org.testng.annotations.*;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 public class FoodTest {
 
@@ -17,7 +18,7 @@ public class FoodTest {
     Food food;
 
     @BeforeMethod
-    private void inicilisation(){
+    private void initialization() {
         config = new Configuration();
         grid = new Grid(config);
         snake = new Snake(grid, config);
@@ -27,17 +28,17 @@ public class FoodTest {
 
 
     @Test
-    public void foodRunRunTest(){
+    public void foodRunRunTest() {
         food.setLocation(new Point(2,5));
         food.foodRun();
         Assert.assertNotEquals(food.getLocation(), new Point(2,5));
     }
 
     @Test
-    public void foodRunDontRunTest(){
+    public void foodRunDontRunTest() {
         food.setLocation(new Point(2, 5));
-        for (int i = 1; i < 4; i++){
-            for(int j = 4; j < 7; j++ ){
+        for (int i = 1; i < 4; i++) {
+            for (int j = 4; j < 7; j++) {
                 grid.getGrid()[j][i] = Grid.obj.WALL;
             }
         }
@@ -46,14 +47,14 @@ public class FoodTest {
     }
 
     @Test
-    public void moveSleepTest(){
+    public void moveSleepTest() {
         food.setSleep(10);
         food.move();
         Assert.assertEquals(food.getSleep(), 9);
     }
 
     @Test
-    public void moveStopedRunTest(){
+    public void moveStoppedRunTest() {
         food.setSleep(0);
         food.setRun(0);
         food.move();
@@ -61,7 +62,7 @@ public class FoodTest {
     }
 
     @Test
-    public void moveRunTest(){
+    public void moveRunTest() {
 
         food.setLocation(new Point(2, 5));
         food.setSleep(0);
@@ -71,7 +72,7 @@ public class FoodTest {
     }
 
     @Test
-    public void createTest(){
+    public void createTest() {
         food.createFood();
         Assert.assertEquals(grid.getGrid()[food.getLocation().getY()][food.getLocation().getX()], Grid.obj.FOOD);
     }

@@ -10,9 +10,6 @@ public class Point {
         this.y = y;
     }
 
-    public void test(){
-
-    }
     public Point(Point p) {
         this.x = p.x;
         this.y = p.y;
@@ -34,9 +31,9 @@ public class Point {
     }
 
     @Override
-    public boolean equals(Object obj){
+    public boolean equals(Object obj) {
         Point newObj = (Point) obj;
-        if (this.x == newObj.x && this.y == newObj.y){
+        if (this.x == newObj.x && this.y == newObj.y) {
             return true;
         }
         return false;

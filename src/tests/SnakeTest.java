@@ -2,32 +2,30 @@ package tests;
 
 import control.Configuration;
 import control.Point;
+import logic.Amanita;
 import logic.Grid;
 import logic.Snake;
-import logic.Amanita;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 public class SnakeTest {
 
-    Configuration config;
-    Grid grid;
-    Snake snake;
-    Grid.obj[][] gridTest;
-    Amanita amanita;
+    private Snake snake;
+    private Grid.obj[][] gridTest;
+    private Grid grid;
 
-    @BeforeClass
-    private void inicilisation(){
-        config = new Configuration();
+    @BeforeMethod
+    private void initialization() {
+        Configuration config = new Configuration();
         grid = new Grid(config);
         snake = new Snake(grid, config);
         gridTest = grid.getGrid();
-        amanita = new Amanita(grid, config);
+        Amanita amanita = new Amanita(grid, config);
     }
 
     @Test
-    public void collideWithObjectInNextCellFoodAndIsPoisonedTest(){
+    public void collidePoisonedWithFoodInNextCell() {
         snake.setItIsLife(true);
         snake.setPoisoned(true);
         snake.setHead(new Point(2,5));
@@ -37,7 +35,7 @@ public class SnakeTest {
     }
 
     @Test
-    public void collideWithObjectInNextCellFoodAndDontPoisonedTest(){
+    public void collideNotPoisonedWithFoodInNextCell() {
         snake.setPoisoned(false);
         snake.setHead(new Point(2,5));
         gridTest[5][2] = Grid.obj.FOOD;
@@ -46,7 +44,7 @@ public class SnakeTest {
     }
 
     @Test
-    public void collideWithObjectInNextCellWallAndIsPoisonedTest(){
+    public void collidePoisonedWithWallInNextCell() {
         snake.setItIsLife(true);
         snake.setPoisoned(false);
         snake.setHead(new Point(2,5));
@@ -56,35 +54,36 @@ public class SnakeTest {
     }
 
     @Test
-    public void collideWithObjectInNextCellWallAndDontPoisonedTest(){
+    public void collideNotPoisonedWithWallInNextCell() {
         snake.setPoisoned(false);
         snake.setHead(new Point(2,5));
         gridTest[5][2] = Grid.obj.WALL;
         snake.collideWithObjectInNextCell(new Point(2, 5));
-        Assert.assertEquals(snake.getLen(), 2);
+        Assert.assertEquals(snake.getLen(), 0);
     }
-    /*@Test
-    public void collideWithObjectInNextCellSnakeAndDontDieTest(){
+
+    @Test
+    public void collideNotDeadWithSnakeInNextCell() {
         snake.setItIsLife(true);
         snake.setHead(new Point(2,5));
-        gridTest[5][2] = Grid.obj.TAIL;
+        gridTest[5][2] = Grid.obj.TAIL1;
         snake.setJoints(2, new Point(2, 5));
         snake.collideWithObjectInNextCell(new Point(2, 5));
         Assert.assertTrue(snake.getItIsLife());
     }
 
     @Test
-    public void collideWithObjectInNextCellSnakeAndDieTest(){
+    public void collideDeadWithSnakeInNextCell() {
         snake.setItIsLife(true);
         snake.setHead(new Point(2,5));
-        gridTest[5][2] = Grid.obj.TAIL;
+        gridTest[5][2] = Grid.obj.TAIL1;
         snake.setJoints(2, new Point(4, 5));
         snake.collideWithObjectInNextCell(new Point(3, 5));
         Assert.assertFalse(snake.getItIsLife());
     }
 
     @Test
-    public void collideWithObjectInNextCellAmanita(){
+    public void collideWithObjectInNextCellAmanita() {
         snake.setPoisoned(false);
         snake.setHead(new Point(2,5));
         grid.setAmanita(new Point(5, 9));
@@ -105,7 +104,7 @@ public class SnakeTest {
     }
 
     @Test(dataProvider = "checkOutOfMapData")
-    public void checkOutOfMapTest(Point head, boolean expect){
+    public void checkOutOfMapTest(Point head, boolean expect) {
         snake.setItIsLife(true);
         snake.setHead(head);
         boolean actual = snake.checkOutOfMap();
@@ -123,7 +122,7 @@ public class SnakeTest {
     }
 
     @Test(dataProvider = "moveMoveData")
-    public void moveMoveTest(boolean left, boolean right, boolean down, boolean up, Point expected){
+    public void moveMoveTest(boolean left, boolean right, boolean down, boolean up, Point expected) {
         snake.setHead(new Point(18, 10));
         snake.setJoints(2, new Point(26, 10));
         snake.setJoints(3, new Point(36, 10));
@@ -134,8 +133,9 @@ public class SnakeTest {
         snake.move();
         Assert.assertEquals(snake.getHead(), expected);
     }
+
     @Test
-    public void moveOutOfMapTest(){
+    public void moveOutOfMapTest() {
         snake.setHead(new Point(1000, 10));
         snake.setJoints(2, new Point(26, 10));
         snake.setJoints(3, new Point(36, 10));
@@ -148,7 +148,7 @@ public class SnakeTest {
     }
 
     @Test
-    public void moveIfSnakePoisoned(){
+    public void moveIfSnakePoisoned() {
         snake.setHead(new Point(10, 10));
         snake.setJoints(2, new Point(26, 10));
         snake.setJoints(3, new Point(36, 10));
@@ -163,6 +163,6 @@ public class SnakeTest {
         snake.setPoisoned(true);
         snake.move();
         Assert.assertEquals(snake.isPoisoned(), false);
-    }*/
+    }
 }
 

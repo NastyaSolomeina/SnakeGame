@@ -2,6 +2,7 @@ package logic;
 
 import control.Configuration;
 import control.Point;
+
 import java.util.ArrayDeque;
 
 public class Snake {
@@ -31,23 +32,31 @@ public class Snake {
     public void setPoisoned(boolean poisoned) {
         isPoisoned = poisoned;
     }
-    public void setPoisonTime(int val){ poisonTime = val; }
-    public boolean isPoisoned(){ return isPoisoned; }
-    public int getPoisonTime() {
-        return poisonTime;
-    }
 
-    public Snake(Grid grid, Configuration c){
+    public Snake(Grid grid, Configuration c) {
         this.grid = grid;
         config = c;
     }
 
-    public ArrayDeque<Point> getTail(){
+    public void setPoisonTime(int val) {
+        poisonTime = val;
+    }
+
+    public int getPoisonTime() {
+        return poisonTime;
+    }
+
+    public boolean isPoisoned() {
+        return isPoisoned;
+    }
+
+    public ArrayDeque<Point> getTail() {
         return new ArrayDeque(tail);
     }
     public boolean getAlreadyTurned() { return alreadyTurned; }
     public void setAlreadyTurned(boolean t) { alreadyTurned = t; }
-    public Point getHead(){
+
+    public Point getHead() {
         return new Point(head);
     }
     public void setHead(Point point) { head = new Point(point); }
@@ -83,7 +92,10 @@ public class Snake {
     public int getLen() {
         return len;
     }
-    public boolean getItIsLife(){ return itIsLife; }
+
+    public boolean getItIsLife() {
+        return itIsLife;
+    }
 
     public void setJoints(int l, Point point) {
         len = l;
@@ -111,15 +123,15 @@ public class Snake {
         }
         alreadyTurned = false;
 
-        if (!checkOutOfMap()){
+        if (!checkOutOfMap()) {
             return p;
         }
 
         collideWithObjectInNextCell(p);
 
-        if (poisonTime == 0){
+        if (poisonTime == 0) {
             isPoisoned = false;
-            grid.changeIsPoisoned_1(false);
+            grid.setIsFirstPoisoned(false);
         }else{
             poisonTime--;
         }
@@ -127,7 +139,7 @@ public class Snake {
         return tail.peek();
     }
 
-    public boolean checkOutOfMap(){
+    public boolean checkOutOfMap() {
         if (head.getY() > grid.getHeight() - 1) {
             itIsLife = false;
         }
@@ -136,7 +148,7 @@ public class Snake {
             itIsLife = false;
         }
 
-        if (head.getX() > grid.getWeidth() - 1) {
+        if (head.getX() > grid.getWidth() - 1) {
             itIsLife = false;
         }
 
@@ -146,18 +158,18 @@ public class Snake {
         return itIsLife;
     }
 
-    public void collideWithObjectInNextCell(Point p){
-        if (grid.cellIsEmpty(head.getX(), head.getY())){
+    public void collideWithObjectInNextCell(Point p) {
+        if (grid.cellIsEmpty(head.getX(), head.getY())) {
             //
         }
-        if (grid.itIscellWithFood(head.getX(), head.getY())){
-            if (isPoisoned){
+        if (grid.itIsCellWithFood(head.getX(), head.getY())) {
+            if (isPoisoned) {
                 itIsLife = false;
                 return;
             }
             setJoints(getLen()+1, p);
         }
-        if (grid.itIscellWithWall(head.getX(), head.getY())){
+        if (grid.itIsCellWithWall(head.getX(), head.getY())) {
             if (!isPoisoned) {
                 itIsLife = false;
                 return;
@@ -165,23 +177,23 @@ public class Snake {
             setJoints(getLen()+1, p);
             return;
         }
-        if (grid.itIscellWithSnake1(head.getX(), head.getY())) {
-            if ((head.equals(p)) && (p!=tail.peek())){
+        if (grid.itIsCellWithSnake1(head.getX(), head.getY())) {
+            if ((head.equals(p)) && (p != tail.peek())) {
                 return;
             }
             itIsLife = false;
         }
         if (grid.itIscellWithSnake2(head.getX(), head.getY())) {
-            if ((head.equals(p)) && (p!=tail.peek())){
+            if ((head.equals(p)) && (p != tail.peek())) {
                 return;
             }
             itIsLife = false;
         }
-        if (grid.itIscellWithAmanita(head.getX(), head.getY())){
+        if (grid.itIsCellWithAmanita(head.getX(), head.getY())) {
             isPoisoned = true;
             poisonTime = config.getPoisonTime();
             grid.setAmanita(null);
-            grid.changeIsPoisoned_1(true);
+            grid.setIsFirstPoisoned(true);
         }
     }
 }

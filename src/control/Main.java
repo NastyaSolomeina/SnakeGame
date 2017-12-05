@@ -1,7 +1,8 @@
 package control;
+
 import visual.Board;
-import javax.swing.JFrame;
-import javax.swing.Timer;
+
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -25,7 +26,7 @@ public class Main implements ActionListener{
         m.startGame();
     }
 
-    public void startGame(){
+    public void startGame() {
         timer = new Timer(board.getSpeed(), this);
         timer.start();
     }
