@@ -17,8 +17,8 @@ public class Amanita {
     public Amanita(Grid gr, Configuration c) {
         grid = gr;
         config = c;
-        lifeTime = config.getLifeTimeAminata();
-        freq = config.getFrequencyOfOccurrenceAminata();
+        lifeTime = config.getLifeTimeAmanita();
+        freq = config.getFrequencyOfOccurrenceAmanita();
     }
 
     public int getFreq() {
@@ -59,9 +59,9 @@ public class Amanita {
 
         if (lifeTime == 0) {
             location = null;
-            grid.setAmanita(location);
-            lifeTime = config.getLifeTimeAminata();
-            freq = config.getFrequencyOfOccurrenceAminata();
+            grid.setAmanita(null);
+            lifeTime = config.getLifeTimeAmanita();
+            freq = config.getFrequencyOfOccurrenceAmanita();
             return;
         }
 

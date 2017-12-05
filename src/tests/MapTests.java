@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 
 import java.awt.event.KeyEvent;
 
-public class MapTest {
+public class MapTests {
     private Snake snake;
     private Map map;
     private ArrayWalls walls;
@@ -50,19 +50,19 @@ public class MapTest {
     }
 
     @Test
-    public void checkSnakeAteWallCountZeroTest() {
+    public void checkSnakeAteWallCountZero() {
         Assert.assertFalse(map.checkFirstSnakeAteWall());
     }
 
     @Test
-    public void checkSnakeAteWallCountTest() {
+    public void checkSnakeAteWallCount() {
         snake.setHead(new Point(2, 5));
         walls.add(new Wall(new Point(2,5), new Point(2,5), new Point(3, 2)));
         Assert.assertTrue(map.checkFirstSnakeAteWall());
     }
 
     @Test
-    public void checkSnakeAteFoodTest() {
+    public void checkSnakeAteFood() {
         snake.setHead(new Point(2, 5));
         food.setLocation(new Point(2, 5));
         Assert.assertTrue(map.checkFirstSnakeAteFood());

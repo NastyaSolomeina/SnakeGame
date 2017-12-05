@@ -14,7 +14,7 @@ import org.testng.annotations.Test;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class GridTest {
+public class GridTests {
     private Configuration config;
     private Grid grid;
     private Point head;
@@ -51,13 +51,13 @@ public class GridTest {
     }
 
     @Test
-    public void setAmanitaLocNullTest() {
+    public void setAmanitaLocNull() {
         grid.setAmanita(new Point(2, 5));
         grid.setAmanita(null);
         Assert.assertEquals(grid.getGrid()[5][2], Grid.obj.EMPTY);
     }
     @Test
-    public void setAmanitaLocNotNullTest() {
+    public void setAmanitaLocNotNull() {
         grid.setAmanita(new Point(2, 5));
         Assert.assertEquals(grid.getGrid()[5][2], Grid.obj.AMANITA);
     }
@@ -74,20 +74,20 @@ public class GridTest {
     }
 
     @Test
-    public void addNewWallTest() {
+    public void addNewWall() {
         grid.addNewWall(new Wall(new Point(2,5), new Point(5,5), new Point(1, 0)));
         for (int x = 2; x < 6; x++)
             Assert.assertEquals(grid.getGrid()[5][x], Grid.obj.WALL);
     }
 
     @Test
-    public void setFoodFoodWasNullTest() {
+    public void setFoodFoodWasNull() {
         grid.setFood(new Point(2, 5));
         Assert.assertEquals(grid.getGrid()[5][2], Grid.obj.FOOD);
     }
 
     @Test
-    public void setFoodTest() {
+    public void setFood() {
         grid.setFood(new Point(2, 5));
         Assert.assertEquals(grid.getGrid()[5][2], Grid.obj.FOOD);
         grid.setFirstHead(new Point(10, 15));
@@ -97,7 +97,7 @@ public class GridTest {
     }
 
     @Test
-    public void initialSnakeTest() {
+    public void initialSnake() {
         Snake snake = new Snake(grid, config);
         snake.setHead(new Point(10, 10));
         snake.setJoints(2, new Point(26, 10));
@@ -106,7 +106,7 @@ public class GridTest {
         Assert.assertEquals(grid.getGrid()[10][10], Grid.obj.HEAD1);
     }
     @Test
-    public void setSnakeTest() {
+    public void setSnake() {
         grid.setFirstHead(new Point(2, 5));
         grid.setFirstTail(new Point(3, 5));
         grid.setFirstSnake(new Point(1, 5), new Point(2, 5));

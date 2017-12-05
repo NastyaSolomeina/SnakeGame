@@ -71,6 +71,14 @@ public class Map {
         return secondPlayerScore;
     }
 
+    public void setFirstPlayerScore(int score) {
+        firstPlayerScore = score;
+    }
+
+    public void setSecondPlayerScore(int score) {
+        secondPlayerScore = score;
+    }
+
     public Snake getFirstSnake() {
         return firstSnake;
     }
@@ -118,12 +126,22 @@ public class Map {
         amanita.updatePositionOfAmanita();
 
         Point p_1 = firstSnake.move(); // возвращает удаленную из конца хвоста точку
+        Point p_2 = secondSnake.move(); // возвращает удаленную из конца хвоста точку
+
+        if (!firstSnake.getIsAlive() && !secondSnake.getIsAlive()) {
+            if (firstPlayerScore > secondPlayerScore)
+                firstPlayerWon = true;
+            else if (secondPlayerScore > firstPlayerScore)
+                secondPlayerWon = true;
+            else
+                firstPlayerWon = secondPlayerWon = false;
+            return;
+        }
+
         if (!firstSnake.getIsAlive()) {
             secondPlayerWon = true;
             return;
         }
-
-        Point p_2 = secondSnake.move(); // возвращает удаленную из конца хвоста точку
         if (!secondSnake.getIsAlive()) {
             firstPlayerWon = true;
             return;
@@ -180,6 +198,7 @@ public class Map {
         return (firstSnake.getHead().equals(food.getLocation()));
     }
 
+    @SuppressWarnings("WeakerAccess")
     public boolean checkSecondSnakeAteFood() {
         return (secondSnake.getHead().equals(food.getLocation()));
     }
@@ -193,6 +212,7 @@ public class Map {
         return (k != -1);
     }
 
+    @SuppressWarnings("WeakerAccess")
     public boolean checkSecondSnakeAteWall() {
         if (walls.getCount() == 0) {
             return false;

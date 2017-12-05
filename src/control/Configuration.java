@@ -1,5 +1,6 @@
 package control;
 
+@SuppressWarnings("FieldCanBeLocal")
 public class Configuration {
     private int boardWidth = 40;
     private int boardHeight = 27;
@@ -10,8 +11,8 @@ public class Configuration {
     private int speedFood = 2;
     private int speedWall = 3;
     private int speedTick = 500;
-    private int lifeTimeAminata = 50;
-    private int frequencyOfOccurrenceAminata = 100;
+    private int lifeTimeAmanita = 50;
+    private int frequencyOfOccurrenceAmanita = 100;
     private int poisonTime = 100;
 
     public boolean foodIsMove(int tick) {
@@ -23,22 +24,29 @@ public class Configuration {
     }
 
 
-    public int getLifeTimeAminata() {
-        return lifeTimeAminata;
+    public int getLifeTimeAmanita() {
+        return lifeTimeAmanita;
     }
-    public int getFrequencyOfOccurrenceAminata() {
-        return frequencyOfOccurrenceAminata;
+
+    public int getFrequencyOfOccurrenceAmanita() {
+        return frequencyOfOccurrenceAmanita;
     }
+
     public int getPoisonTime() {
         return poisonTime;
     }
 
     public int getBoardHeight() { return boardHeight; }
+
     public int getBoardWidth() { return boardWidth; }
+
     public int getSpeedTick() { return speedTick; }
 
     public int getPSize() { return pixelSize; }
+
     public int getPLine() { return pointsLine; }
+
     public int getHeightPS() {return boardHeight * pixelSize; }
+
     public int getWidthPS() {return boardWidth * pixelSize; }
 }

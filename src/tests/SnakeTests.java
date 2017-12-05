@@ -9,7 +9,8 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-public class SnakeTest {
+
+public class SnakeTests {
 
     private Snake snake;
     private Grid.obj[][] gridTest;
@@ -135,7 +136,7 @@ public class SnakeTest {
     }
 
     @Test
-    public void moveOutOfMapTest() {
+    public void moveOutOfMap() {
         snake.setHead(new Point(1000, 10));
         snake.setJoints(2, new Point(26, 10));
         snake.setJoints(3, new Point(36, 10));

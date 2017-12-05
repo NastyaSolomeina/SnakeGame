@@ -18,7 +18,7 @@ public class Wall {
     public Point getEnd() { return new Point(end.getX(),end.getY()); }
     public Point getDir() { return new Point(dir.getX(),dir.getY()); }
 
-    public Wall(Wall wall) {
+    Wall(Wall wall) {
         start = wall.getStart();
         end = wall.getEnd();
         dir = wall.getDir();

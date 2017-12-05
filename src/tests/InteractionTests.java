@@ -40,7 +40,7 @@ public class InteractionTests {
     }
 
     @Test
-    public void moveSnakeEatNotAllWallTest() {
+    public void moveSnakeEatNotAllWall() {
         firstSnake.setPoisoned(true);
         food.setLocation(new Point(10, 15));
         grid.setFirstHead(new Point(2, 5));
@@ -52,7 +52,7 @@ public class InteractionTests {
 
 
     @Test
-    public void moveSnakeEatAllWallTest() {
+    public void moveSnakeEatAllWall() {
         firstSnake.setPoisoned(true);
         food.setLocation(new Point(10, 15));
         walls.add(new Wall(new Point(2, 5), new Point(2, 5), new Point(3, 2)));
@@ -61,7 +61,7 @@ public class InteractionTests {
     }
 
     @Test
-    public void moveSnakeEatFoodTest() {
+    public void moveSnakeEatFood() {
         food.setLocation(new Point(10, 15));
         food.setLocation(new Point(2, 5));
         int oldScore = map.getFirstPlayerScore();
@@ -70,10 +70,32 @@ public class InteractionTests {
     }
 
     @Test
-    public void moveTickPlusesTest() {
+    public void moveTickPluses() {
         food.setLocation(new Point(10, 15));
         map.setTick(10);
         map.move();
         Assert.assertEquals(map.getTick(), 11);
+    }
+
+    @Test
+    public void collisionWithNoPointDifference() {
+        walls.add(new Wall(new Point(2, 5), new Point(2, 5), new Point(3, 2)));
+        walls.add(new Wall(new Point(10, 5), new Point(10, 5), new Point(3, 2)));
+        map.move();
+        Assert.assertEquals(map.getFirstPlayerScore(), map.getSecondPlayerScore());
+        Assert.assertFalse(map.haveFirstPlayerWon());
+        Assert.assertFalse(map.haveSecondPlayerWon());
+    }
+
+    @Test
+    public void collideWhenFirstIsWinning() {
+        map.setFirstPlayerScore(20);
+        map.setSecondPlayerScore(25);
+        walls.add(new Wall(new Point(2, 5), new Point(2, 5), new Point(3, 2)));
+        walls.add(new Wall(new Point(10, 5), new Point(10, 5), new Point(3, 2)));
+        map.move();
+        Assert.assertNotEquals(map.getFirstPlayerScore(), map.getSecondPlayerScore());
+        Assert.assertFalse(map.haveFirstPlayerWon());
+        Assert.assertTrue(map.haveSecondPlayerWon());
     }
 }

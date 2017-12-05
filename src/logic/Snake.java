@@ -8,7 +8,7 @@ import java.util.ArrayDeque;
 public class Snake {
 
     private Point head = new Point();
-    private ArrayDeque<Point> tail = new ArrayDeque<Point>();
+    private ArrayDeque<Point> tail = new ArrayDeque<>();
 
     private boolean isPoisoned = false;
     private int poisonTime = 0;
@@ -50,6 +50,7 @@ public class Snake {
         return isPoisoned;
     }
 
+    @SuppressWarnings("unchecked")
     public ArrayDeque<Point> getTail() {
         return new ArrayDeque(tail);
     }
@@ -97,8 +98,8 @@ public class Snake {
         return isAlive;
     }
 
-    public void setJoints(int l, Point point) {
-        len = l;
+    public void setJoints(int length, Point point) {
+        len = length;
         tail.push(point);
     }
 
@@ -159,9 +160,6 @@ public class Snake {
     }
 
     public void collideWithObjectInNextCell(Point p) {
-        if (grid.cellIsEmpty(head.getX(), head.getY())) {
-            //
-        }
         if (grid.itIsCellWithFood(head.getX(), head.getY())) {
             if (isPoisoned) {
                 isAlive = false;
