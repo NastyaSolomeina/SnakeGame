@@ -15,10 +15,10 @@ public class Map {
     private ArrayWalls walls;
     private Amanita amanita;
 
-    private boolean player1Win = false;
-    private boolean player2Win = false;
-    private int score_1 = 0;
-    private int score_2 = 0;
+    private boolean firstPlayerWon = false;
+    private boolean secondPlayerWon = false;
+    private int firstPlayerScore = 0;
+    private int secondPlayerScore = 0;
     private int tick = 0;
 
     public Map(Configuration conf, Grid gr) {
@@ -31,12 +31,12 @@ public class Map {
         amanita = new Amanita(grid, config);
     }
 
-    public boolean isFirstPlayerWon() {
-        return player1Win;
+    public boolean haveFirstPlayerWon() {
+        return firstPlayerWon;
     }
 
-    public boolean isSecondPlayerWon() {
-        return player2Win;
+    public boolean haveSecondPlayerWon() {
+        return secondPlayerWon;
     }
 
     public boolean isFirstSnakePoisoned() {
@@ -56,19 +56,19 @@ public class Map {
     }
 
     public boolean isFirstSnakeAlive() {
-        return firstSnake.getItIsLife();
+        return firstSnake.getIsAlive();
     }
 
     public boolean isSecondSnakeAlive() {
-        return secondSnake.getItIsLife();
+        return secondSnake.getIsAlive();
     }
 
     public int getFirstPlayerScore() {
-        return score_1;
+        return firstPlayerScore;
     }
 
     public int getSecondPlayerScore() {
-        return score_2;
+        return secondPlayerScore;
     }
 
     public Snake getFirstSnake() {
@@ -112,53 +112,57 @@ public class Map {
         walls.add(new Wall(new Point(30, 4), new Point(30,10), new Point(0,1)));
         walls.add(new Wall(new Point(36, 25), new Point(39, 25), new Point(-1,0)));
         walls.add(new Wall(new Point(8, 3), new Point(8,8), new Point(0,1)));
-
     }
 
     public void move() {
         amanita.updatePositionOfAmanita();
 
         Point p_1 = firstSnake.move(); // возвращает удаленную из конца хвоста точку
-        if (!firstSnake.getItIsLife()) {
-            player2Win = true;
+        if (!firstSnake.getIsAlive()) {
+            secondPlayerWon = true;
             return;
         }
-        Point p_2 = secondSnake.move(); // возвращает удаленную из конца хвоста точку
-        if (!secondSnake.getItIsLife()) {
-            player1Win = true;
-            return;
-        }
-        if (checkFirstSnakeAteWall()) {
-            score_1 += 5;
-            if (walls.getCount() == 0) {
-                if (score_1 > score_2) {
-                    player1Win = true;
-                }
-                else{
-                    player2Win = true;
-                }
-            }
 
+        Point p_2 = secondSnake.move(); // возвращает удаленную из конца хвоста точку
+        if (!secondSnake.getIsAlive()) {
+            firstPlayerWon = true;
+            return;
         }
-        if (checkSecondSnakeAteWall()) {
-            score_2 += 5;
+
+        if (checkFirstSnakeAteFood()) {
+            firstPlayerScore += 5;
+            food.createFood();
+        }
+
+        if (checkFirstSnakeAteWall()) {
+            firstPlayerScore += 5;
             if (walls.getCount() == 0) {
-                if (score_2 > score_1) {
-                    player2Win = true;
-                }
-                else{
-                    player1Win = true;
+                if (firstPlayerScore > secondPlayerScore) {
+                    firstPlayerWon = true;
+                } else{
+                    secondPlayerWon = true;
                 }
             }
         }
-        if (checkFirstSnakeAteFood()) {
-            score_1 += 5;
-            food.createFood();
-        }
+
         if (checkSecondSnakeAteFood()) {
-            score_2 += 5;
+            secondPlayerScore += 5;
             food.createFood();
         }
+
+        if (checkSecondSnakeAteWall()) {
+            secondPlayerScore += 5;
+            if (walls.getCount() == 0) {
+                if (secondPlayerScore > firstPlayerScore) {
+                    secondPlayerWon = true;
+                }
+                else{
+                    firstPlayerWon = true;
+                }
+            }
+        }
+
+
         grid.setFirstSnake(firstSnake.getHead(), p_1);
         grid.setSecondSnake(secondSnake.getHead(), p_2);
         if (config.foodIsMove(tick)) {

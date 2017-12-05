@@ -115,15 +115,15 @@ public class Board extends JPanel {
         String message = "Game over";
         g.setColor(Color.red);
 
-        if (map.isFirstPlayerWon()) {
+        if (map.haveFirstPlayerWon()) {
             message = "Player 1 Win ";
             g.setColor(Color.green);
         }
-        if (map.isSecondPlayerWon()) {
+        if (map.haveSecondPlayerWon()) {
             message = "Player 2 Win ";
             g.setColor(Color.green);
         }
-        if (map.isFirstPlayerWon() && map.isSecondPlayerWon()) {
+        if (map.haveFirstPlayerWon() && map.haveSecondPlayerWon()) {
             message = "Dead heat";
             g.setColor(Color.pink);
         }
