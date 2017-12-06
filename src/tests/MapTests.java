@@ -10,6 +10,8 @@ import org.testng.annotations.Test;
 
 import java.awt.event.KeyEvent;
 
+import static logic.SnakeNumber.First;
+
 public class MapTests {
     private Snake snake;
     private Map map;
@@ -21,7 +23,7 @@ public class MapTests {
         Configuration config = new Configuration();
         Grid grid = new Grid(config);
         map = new Map(config, grid);
-        snake = map.getFirstSnake();
+        snake = map.getSnake(First);
         walls = map.getWalls();
         food = map.getFood();
     }
@@ -46,7 +48,7 @@ public class MapTests {
         snake.setAlreadyTurned(turn);
 
         map.turnFirstSnake(key);
-        Assert.assertTrue(map.getFirstSnake().getAlreadyTurned());
+        Assert.assertTrue(map.getSnake(First).getAlreadyTurned());
     }
 
     @Test

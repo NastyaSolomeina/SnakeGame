@@ -5,20 +5,19 @@ import control.Point;
 
 import java.awt.event.KeyEvent;
 
+import static logic.SnakeNumber.First;
+
 public class Map {
     private Configuration config;
     private Grid grid;
 
-    private Snake firstSnake;
-    private Snake secondSnake;
+    private Snake firstSnake, secondSnake;
     private Food food;
     private ArrayWalls walls;
     private Amanita amanita;
 
-    private boolean firstPlayerWon = false;
-    private boolean secondPlayerWon = false;
-    private int firstPlayerScore = 0;
-    private int secondPlayerScore = 0;
+    private boolean firstPlayerWon = false, secondPlayerWon = false;
+    private int firstPlayerScore = 0, secondPlayerScore = 0;
     private int tick = 0;
 
     public Map(Configuration conf, Grid gr) {
@@ -31,60 +30,39 @@ public class Map {
         amanita = new Amanita(grid, config);
     }
 
-    public boolean haveFirstPlayerWon() {
-        return firstPlayerWon;
+    public boolean havePlayerWon(SnakeNumber number) {
+        return (number == First) ? firstPlayerWon : secondPlayerWon;
     }
 
-    public boolean haveSecondPlayerWon() {
-        return secondPlayerWon;
+    public boolean isSnakePoisoned(SnakeNumber number) {
+        return ((number == First) ? firstSnake : secondSnake).isPoisoned();
     }
 
-    public boolean isFirstSnakePoisoned() {
-        return firstSnake.isPoisoned();
-    }
-
-    public boolean isSecondSnakePoisoned() {
-        return secondSnake.isPoisoned();
-    }
-
-    public int getPoisonTime() {
-        return firstSnake.getPoisonTime();
+    public int getPoisonTime(SnakeNumber number) {
+        return ((number == First) ? firstSnake : secondSnake).getPoisonTime();
     }
 
     public ArrayWalls getWalls() {
         return walls;
     }
 
-    public boolean isFirstSnakeAlive() {
-        return firstSnake.getIsAlive();
+    public boolean isSnakeAlive(SnakeNumber number) {
+        return ((number == First) ? firstSnake : secondSnake).getIsAlive();
     }
 
-    public boolean isSecondSnakeAlive() {
-        return secondSnake.getIsAlive();
+    public int getScore(SnakeNumber number) {
+        return number == First ? firstPlayerScore : secondPlayerScore;
     }
 
-    public int getFirstPlayerScore() {
-        return firstPlayerScore;
+    public void setScore(SnakeNumber number, int score) {
+        if (number == First)
+            firstPlayerScore = score;
+        else
+            secondPlayerScore = score;
     }
 
-    public int getSecondPlayerScore() {
-        return secondPlayerScore;
-    }
-
-    public void setFirstPlayerScore(int score) {
-        firstPlayerScore = score;
-    }
-
-    public void setSecondPlayerScore(int score) {
-        secondPlayerScore = score;
-    }
-
-    public Snake getFirstSnake() {
-        return firstSnake;
-    }
-
-    public Snake getSecondSnake() {
-        return secondSnake;
+    public Snake getSnake(SnakeNumber number) {
+        return (number == First) ? firstSnake : secondSnake;
     }
 
     public Food getFood() {
@@ -180,7 +158,6 @@ public class Map {
             }
         }
 
-
         grid.setFirstSnake(firstSnake.getHead(), p_1);
         grid.setSecondSnake(secondSnake.getHead(), p_2);
         if (config.foodIsMove(tick)) {
@@ -222,6 +199,8 @@ public class Map {
         return (k != -1);
     }
 
+    // Эти методы вместе с декларированием ключей нужно унести в класс Snake!!!
+    @Deprecated
     public void turnFirstSnake(int key) {
         if ((key == KeyEvent.VK_LEFT) && (!firstSnake.isMovingRight())
                 && !firstSnake.getAlreadyTurned()) {
@@ -256,6 +235,7 @@ public class Map {
         }
     }
 
+    @Deprecated
     public void turnSecondSnake(int key) {
         if ((key == KeyEvent.VK_A) && (!secondSnake.isMovingRight())
                 && !secondSnake.getAlreadyTurned()) {

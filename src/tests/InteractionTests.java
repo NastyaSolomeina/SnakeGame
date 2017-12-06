@@ -7,6 +7,9 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import static logic.SnakeNumber.First;
+import static logic.SnakeNumber.Second;
+
 public class InteractionTests {
     private Snake firstSnake, secondSnake;
     private Map map;
@@ -19,8 +22,8 @@ public class InteractionTests {
         Configuration config = new Configuration();
         grid = new Grid(config);
         map = new Map(config, grid);
-        firstSnake = map.getFirstSnake();
-        secondSnake = map.getSecondSnake();
+        firstSnake = map.getSnake(First);
+        secondSnake = map.getSnake(Second);
         walls = map.getWalls();
         food = map.getFood();
     }
@@ -45,9 +48,9 @@ public class InteractionTests {
         food.setLocation(new Point(10, 15));
         grid.setFirstHead(new Point(2, 5));
         walls.add(new Wall(new Point(2, 5), new Point(2, 5), new Point(3, 2)));
-        int oldScore = map.getFirstPlayerScore();
+        int oldScore = map.getScore(First);
         map.move();
-        Assert.assertEquals(map.getFirstPlayerScore(), oldScore + 5);
+        Assert.assertEquals(map.getScore(First), oldScore + 5);
     }
 
 
@@ -57,16 +60,16 @@ public class InteractionTests {
         food.setLocation(new Point(10, 15));
         walls.add(new Wall(new Point(2, 5), new Point(2, 5), new Point(3, 2)));
         map.move();
-        Assert.assertTrue(map.haveFirstPlayerWon());
+        Assert.assertTrue(map.havePlayerWon(First));
     }
 
     @Test
     public void moveSnakeEatFood() {
         food.setLocation(new Point(10, 15));
         food.setLocation(new Point(2, 5));
-        int oldScore = map.getFirstPlayerScore();
+        int oldScore = map.getScore(First);
         map.move();
-        Assert.assertEquals(map.getFirstPlayerScore() - oldScore, 5);
+        Assert.assertEquals(map.getScore(First) - oldScore, 5);
     }
 
     @Test
@@ -82,20 +85,20 @@ public class InteractionTests {
         walls.add(new Wall(new Point(2, 5), new Point(2, 5), new Point(3, 2)));
         walls.add(new Wall(new Point(10, 5), new Point(10, 5), new Point(3, 2)));
         map.move();
-        Assert.assertEquals(map.getFirstPlayerScore(), map.getSecondPlayerScore());
-        Assert.assertFalse(map.haveFirstPlayerWon());
-        Assert.assertFalse(map.haveSecondPlayerWon());
+        Assert.assertEquals(map.getScore(First), map.getScore(Second));
+        Assert.assertFalse(map.havePlayerWon(First));
+        Assert.assertFalse(map.havePlayerWon(Second));
     }
 
     @Test
     public void collideWhenFirstIsWinning() {
-        map.setFirstPlayerScore(20);
-        map.setSecondPlayerScore(25);
+        map.setScore(First, 20);
+        map.setScore(Second, 25);
         walls.add(new Wall(new Point(2, 5), new Point(2, 5), new Point(3, 2)));
         walls.add(new Wall(new Point(10, 5), new Point(10, 5), new Point(3, 2)));
         map.move();
-        Assert.assertNotEquals(map.getFirstPlayerScore(), map.getSecondPlayerScore());
-        Assert.assertFalse(map.haveFirstPlayerWon());
-        Assert.assertTrue(map.haveSecondPlayerWon());
+        Assert.assertNotEquals(map.getScore(First), map.getScore(Second));
+        Assert.assertFalse(map.havePlayerWon(First));
+        Assert.assertTrue(map.havePlayerWon(Second));
     }
 }
