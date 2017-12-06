@@ -53,7 +53,7 @@ public class Board extends JPanel {
     }
 
 
-    void draw(Graphics g) {
+    private void draw(Graphics g) {
 
         g.setColor(Color.WHITE);
         g.drawLine(0, config.getHeightPS(), config.getWidthPS(), config.getHeightPS());
@@ -75,11 +75,11 @@ public class Board extends JPanel {
         }
     }
 
-    boolean itIsOval(Color col) {
+    private boolean itIsOval(Color col) {
         return (col == Color.RED || col == Color.BLUE || col == Color.YELLOW || col == Color.CYAN);
     }
 
-    void printScore(Graphics g) {
+    private void printScore(Graphics g) {
 
         String message = "Score: " + map.getFirstPlayerScore();
 
@@ -91,7 +91,7 @@ public class Board extends JPanel {
         g.drawString(message, 30,config.getHeightPS() + (config.getPLine()) / 2);
     }
 
-    void printParty(Graphics g) {
+    private void printParty(Graphics g) {
 
         String message = "PoisonTime: ";
 
@@ -110,20 +110,20 @@ public class Board extends JPanel {
     }
 
 
-    void endGame(Graphics g) {
+    private void endGame(Graphics g) {
 
         String message = "Game over";
         g.setColor(Color.red);
 
-        if (map.isFirstPlayerWon()) {
+        if (map.haveFirstPlayerWon()) {
             message = "Player 1 Win ";
             g.setColor(Color.green);
         }
-        if (map.isSecondPlayerWon()) {
+        if (map.haveSecondPlayerWon()) {
             message = "Player 2 Win ";
             g.setColor(Color.green);
         }
-        if (map.isFirstPlayerWon() && map.isSecondPlayerWon()) {
+        if (map.haveFirstPlayerWon() && map.haveSecondPlayerWon()) {
             message = "Dead heat";
             g.setColor(Color.pink);
         }

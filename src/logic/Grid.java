@@ -158,7 +158,7 @@ public class Grid {
         redrawWall(wall, obj.WALL);
     }
 
-    public void redrawWall(Wall wall, obj o) {
+    private void redrawWall(Wall wall, obj o) {
         for (int x = wall.getStart().getX(); x < wall.getEnd().getX() + 1; x++) {
             for (int y = wall.getStart().getY(); y < wall.getEnd().getY() + 1; y++) {
                 grid[y][x] = o;

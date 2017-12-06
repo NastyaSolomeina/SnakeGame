@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class ArrayWalls {
 
-    private ArrayList<Wall> walls = new ArrayList<Wall>();
+    private ArrayList<Wall> walls = new ArrayList<>();
     private Grid grid;
     private Configuration config;
 
@@ -49,12 +49,11 @@ public class ArrayWalls {
             if (dir.equals(new Point(-1,0)) ||
                     dir.equals(new Point(0, -1))) {
                 moveToLeftOrUp(walls.get(i), i);
-                continue;
             }
         }
     }
 
-    public void moveToRightOrDown(Wall wall, int i) {
+    private void moveToRightOrDown(Wall wall, int i) {
         goDownOrRight = true;
         Point next = getNextStepEnd(wall);
         if ((next.getX() >= config.getBoardWidth()) ||
@@ -82,7 +81,7 @@ public class ArrayWalls {
         grid.wallMoved(wall, i);
     }
 
-    public void moveToLeftOrUp(Wall wall, int i) {
+    private void moveToLeftOrUp(Wall wall, int i) {
         goUpOrLeft = true;
         Point next = getNextStepStart(wall);
         if ((next.getX() < 0) || (next.getY() < 0)) {
@@ -126,12 +125,12 @@ public class ArrayWalls {
         }
     }
 
-    Point getNextStepStart(Wall wall) {
+    private Point getNextStepStart(Wall wall) {
         return new Point(wall.getStart().getX() + wall.getDir().getX(),
                 wall.getStart().getY() + wall.getDir().getY());
     }
 
-    Point getNextStepEnd(Wall wall) {
+    private Point getNextStepEnd(Wall wall) {
         return new Point(wall.getEnd().getX() + wall.getDir().getX(),
                 wall.getEnd().getY() + wall.getDir().getY());
     }
@@ -168,7 +167,7 @@ public class ArrayWalls {
         return -1;
     }
 
-    public void remove(int i) {
+    private void remove(int i) {
         walls.remove(i);
         grid.removeWall(i);
     }

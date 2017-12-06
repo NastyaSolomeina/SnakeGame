@@ -7,7 +7,7 @@ import logic.Grid;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class AmanitaTest {
+public class AmanitaTests {
 
     private Configuration config = new Configuration();
     private Grid gridEx = new Grid(config);
@@ -15,7 +15,7 @@ public class AmanitaTest {
     private Amanita amanita = new Amanita(gridEx, config);
 
     @Test
-    public void updatePositionOfAmanitaPoisonedTrueTest() {
+    public void updatePositionOfAmanitaPoisonedTrue() {
         gridEx.setIsFirstPoisoned(true);
         amanita.setLifeTime(10);
         amanita.updatePositionOfAmanita();
@@ -23,7 +23,7 @@ public class AmanitaTest {
     }
 
     @Test
-    public void updatePositionOfAmanitaTest() {
+    public void updatePositionOfAmanita() {
         gridEx.setIsFirstPoisoned(false);
         amanita.setFreq(10);
         amanita.updatePositionOfAmanita();
@@ -31,7 +31,7 @@ public class AmanitaTest {
     }
 
     @Test
-    public void createTest() {
+    public void create() {
         amanita.setLocation(new Point(2, 5));
         Point oldAmanita = amanita.getLocation();
         amanita.create();

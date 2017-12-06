@@ -9,9 +9,8 @@ import java.awt.event.ActionListener;
 public class Main implements ActionListener{
 
     private Board board;
-    private Timer timer;
 
-    public Main(Board board) {
+    private Main(Board board) {
         this.board = board;
     }
 
@@ -26,17 +25,16 @@ public class Main implements ActionListener{
         m.startGame();
     }
 
-    public void startGame() {
-        timer = new Timer(board.getSpeed(), this);
+    private void startGame() {
+        Timer timer = new Timer(board.getSpeed(), this);
         timer.start();
     }
 
     public void actionPerformed(ActionEvent e) {
         if (board.snakeIsLife()) {
             board.tick();
-        }
-        else{
-            //timer.stop();
-        }
+        } /*else {
+            timer.stop();
+        }*/
     }
 }

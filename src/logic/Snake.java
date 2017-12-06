@@ -8,7 +8,7 @@ import java.util.ArrayDeque;
 public class Snake {
 
     private Point head = new Point();
-    private ArrayDeque<Point> tail = new ArrayDeque<Point>();
+    private ArrayDeque<Point> tail = new ArrayDeque<>();
 
     private boolean isPoisoned = false;
     private int poisonTime = 0;
@@ -19,14 +19,14 @@ public class Snake {
     private boolean movingDown = false;
 
     private boolean alreadyTurned = false;
-    private boolean itIsLife = true;
+    private boolean isAlive = true;
 
     private int len = 0;
     private Grid grid;
     private Configuration config;
 
-    public void setItIsLife(boolean itIsLife) {
-        this.itIsLife = itIsLife;
+    public void setAlive(boolean alive) {
+        this.isAlive = alive;
     }
 
     public void setPoisoned(boolean poisoned) {
@@ -50,6 +50,7 @@ public class Snake {
         return isPoisoned;
     }
 
+    @SuppressWarnings("unchecked")
     public ArrayDeque<Point> getTail() {
         return new ArrayDeque(tail);
     }
@@ -93,12 +94,12 @@ public class Snake {
         return len;
     }
 
-    public boolean getItIsLife() {
-        return itIsLife;
+    public boolean getIsAlive() {
+        return isAlive;
     }
 
-    public void setJoints(int l, Point point) {
-        len = l;
+    public void setJoints(int length, Point point) {
+        len = length;
         tail.push(point);
     }
 
@@ -141,37 +142,34 @@ public class Snake {
 
     public boolean checkOutOfMap() {
         if (head.getY() > grid.getHeight() - 1) {
-            itIsLife = false;
+            isAlive = false;
         }
 
         if (head.getY() < 0) {
-            itIsLife = false;
+            isAlive = false;
         }
 
         if (head.getX() > grid.getWidth() - 1) {
-            itIsLife = false;
+            isAlive = false;
         }
 
         if (head.getX() < 0) {
-            itIsLife = false;
+            isAlive = false;
         }
-        return itIsLife;
+        return isAlive;
     }
 
     public void collideWithObjectInNextCell(Point p) {
-        if (grid.cellIsEmpty(head.getX(), head.getY())) {
-            //
-        }
         if (grid.itIsCellWithFood(head.getX(), head.getY())) {
             if (isPoisoned) {
-                itIsLife = false;
+                isAlive = false;
                 return;
             }
             setJoints(getLen()+1, p);
         }
         if (grid.itIsCellWithWall(head.getX(), head.getY())) {
             if (!isPoisoned) {
-                itIsLife = false;
+                isAlive = false;
                 return;
             }
             setJoints(getLen()+1, p);
@@ -181,13 +179,13 @@ public class Snake {
             if ((head.equals(p)) && (p != tail.peek())) {
                 return;
             }
-            itIsLife = false;
+            isAlive = false;
         }
         if (grid.itIscellWithSnake2(head.getX(), head.getY())) {
             if ((head.equals(p)) && (p != tail.peek())) {
                 return;
             }
-            itIsLife = false;
+            isAlive = false;
         }
         if (grid.itIsCellWithAmanita(head.getX(), head.getY())) {
             isPoisoned = true;

@@ -9,7 +9,8 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-public class SnakeTest {
+
+public class SnakeTests {
 
     private Snake snake;
     private Grid.obj[][] gridTest;
@@ -26,12 +27,12 @@ public class SnakeTest {
 
     @Test
     public void collidePoisonedWithFoodInNextCell() {
-        snake.setItIsLife(true);
+        snake.setAlive(true);
         snake.setPoisoned(true);
         snake.setHead(new Point(2,5));
         gridTest[5][2] = Grid.obj.FOOD;
         snake.collideWithObjectInNextCell(new Point(2, 5));
-        Assert.assertFalse(snake.getItIsLife());
+        Assert.assertFalse(snake.getIsAlive());
     }
 
     @Test
@@ -45,12 +46,12 @@ public class SnakeTest {
 
     @Test
     public void collidePoisonedWithWallInNextCell() {
-        snake.setItIsLife(true);
+        snake.setAlive(true);
         snake.setPoisoned(false);
         snake.setHead(new Point(2,5));
         gridTest[5][2] = Grid.obj.WALL;
         snake.collideWithObjectInNextCell(new Point(2, 5));
-        Assert.assertFalse(snake.getItIsLife());
+        Assert.assertFalse(snake.getIsAlive());
     }
 
     @Test
@@ -64,22 +65,22 @@ public class SnakeTest {
 
     @Test
     public void collideNotDeadWithSnakeInNextCell() {
-        snake.setItIsLife(true);
+        snake.setAlive(true);
         snake.setHead(new Point(2,5));
         gridTest[5][2] = Grid.obj.TAIL1;
         snake.setJoints(2, new Point(2, 5));
         snake.collideWithObjectInNextCell(new Point(2, 5));
-        Assert.assertTrue(snake.getItIsLife());
+        Assert.assertTrue(snake.getIsAlive());
     }
 
     @Test
     public void collideDeadWithSnakeInNextCell() {
-        snake.setItIsLife(true);
+        snake.setAlive(true);
         snake.setHead(new Point(2,5));
         gridTest[5][2] = Grid.obj.TAIL1;
         snake.setJoints(2, new Point(4, 5));
         snake.collideWithObjectInNextCell(new Point(3, 5));
-        Assert.assertFalse(snake.getItIsLife());
+        Assert.assertFalse(snake.getIsAlive());
     }
 
     @Test
@@ -105,7 +106,7 @@ public class SnakeTest {
 
     @Test(dataProvider = "checkOutOfMapData")
     public void checkOutOfMapTest(Point head, boolean expect) {
-        snake.setItIsLife(true);
+        snake.setAlive(true);
         snake.setHead(head);
         boolean actual = snake.checkOutOfMap();
         Assert.assertEquals(actual, expect);
@@ -135,7 +136,7 @@ public class SnakeTest {
     }
 
     @Test
-    public void moveOutOfMapTest() {
+    public void moveOutOfMap() {
         snake.setHead(new Point(1000, 10));
         snake.setJoints(2, new Point(26, 10));
         snake.setJoints(3, new Point(36, 10));
@@ -158,7 +159,7 @@ public class SnakeTest {
         snake.setMovingUp(false);
         snake.setMovingDown(false);
 
-        snake.setItIsLife(true);
+        snake.setAlive(true);
         snake.setPoisonTime(0);
         snake.setPoisoned(true);
         snake.move();

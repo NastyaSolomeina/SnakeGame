@@ -1,11 +1,12 @@
 package control;
 
 import visual.Board;
-import javax.swing.JFrame;
 
-public class Game extends JFrame {
+import javax.swing.*;
 
-    public Game(Board board) {
+class Game extends JFrame {
+
+    Game(Board board) {
         add(board);
         setResizable(false);
         pack();

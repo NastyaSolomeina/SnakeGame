@@ -32,11 +32,7 @@ public class Point {
 
     @Override
     public boolean equals(Object obj) {
-        Point newObj = (Point) obj;
-        if (this.x == newObj.x && this.y == newObj.y) {
-            return true;
-        }
-        return false;
+        return obj instanceof Point && this.x == ((Point) obj).x && this.y == ((Point) obj).y;
     }
 
     public int getX() {

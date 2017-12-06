@@ -56,7 +56,7 @@ public class Food {
         updateTheTime();
     }
 
-    void updateTheTime() { // устанавливаем новое время для сна и бега
+    private void updateTheTime() { // устанавливаем новое время для сна и бега
         sleep = random.nextInt(30);
         run = random.nextInt(30);
     }
