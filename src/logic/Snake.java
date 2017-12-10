@@ -4,6 +4,7 @@ import control.Configuration;
 import control.Point;
 
 import java.util.ArrayDeque;
+import java.util.Arrays;
 
 public class Snake {
 
@@ -13,9 +14,15 @@ public class Snake {
     private boolean isPoisoned = false;
     private int poisonTime = 0;
 
+    private Direction direction = null;
+    private int[] controls;
+    @Deprecated
     private boolean movingLeft = false;
+    @Deprecated
     private boolean movingRight = false;
+    @Deprecated
     private boolean movingUp = false;
+    @Deprecated
     private boolean movingDown = false;
 
     private boolean alreadyTurned = false;
@@ -33,9 +40,18 @@ public class Snake {
         isPoisoned = poisoned;
     }
 
-    public Snake(Grid grid, Configuration c) {
+    @Deprecated
+    public Snake(Grid grid, Configuration configuration) {
         this.grid = grid;
-        config = c;
+        config = configuration;
+    }
+
+    public Snake(Grid grid, Configuration configuration,
+                 int left, int up, int right, int down) {
+        this.grid = grid;
+        config = configuration;
+        controls = new int[]{left, up, right, down};
+        Arrays.sort(controls);
     }
 
     public void setPoisonTime(int val) {
@@ -61,6 +77,18 @@ public class Snake {
         return new Point(head);
     }
     public void setHead(Point point) { head = new Point(point); }
+
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public void turn(int key) {
+        int keyPosition = Arrays.binarySearch(controls, key);
+        int currentDirection = direction.ordinal();
+        if (Math.abs(keyPosition - currentDirection) != 2 && !alreadyTurned)
+            direction = Direction.enumerate(key);
+    }
+
 
     public boolean isMovingLeft()
     {

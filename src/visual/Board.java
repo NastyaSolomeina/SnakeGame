@@ -9,6 +9,9 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import static logic.SnakeNumber.First;
+import static logic.SnakeNumber.Second;
+
 @SuppressWarnings("serial")
 public class Board extends JPanel {
 
@@ -21,7 +24,7 @@ public class Board extends JPanel {
     }
 
     public boolean snakeIsLife() {
-        return map.isFirstSnakeAlive();
+        return map.isSnakeAlive(First);
     }
 
     public Board(Configuration config) {
@@ -43,7 +46,7 @@ public class Board extends JPanel {
 
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if (map.isFirstSnakeAlive() && map.isSecondSnakeAlive()) {
+        if (map.isSnakeAlive(First) && map.isSnakeAlive(Second)) {
             draw(g);
             printScore(g);
             printParty(g);
@@ -81,7 +84,7 @@ public class Board extends JPanel {
 
     private void printScore(Graphics g) {
 
-        String message = "Score: " + map.getFirstPlayerScore();
+        String message = "Score: " + map.getScore(First);
 
         Font font = new Font("Times New Roman", Font.BOLD, 25);
 
@@ -95,8 +98,8 @@ public class Board extends JPanel {
 
         String message = "PoisonTime: ";
 
-        if (map.isFirstSnakePoisoned() && map.isSecondSnakePoisoned()) {
-            message += map.getPoisonTime();
+        if (map.isSnakePoisoned(First) && map.isSnakePoisoned(Second)) {
+            message += map.getPoisonTime(First);
         } else {
             message += "Off";
         }
@@ -115,15 +118,15 @@ public class Board extends JPanel {
         String message = "Game over";
         g.setColor(Color.red);
 
-        if (map.haveFirstPlayerWon()) {
+        if (map.havePlayerWon(First)) {
             message = "Player 1 Win ";
             g.setColor(Color.green);
         }
-        if (map.haveSecondPlayerWon()) {
+        if (map.havePlayerWon(Second)) {
             message = "Player 2 Win ";
             g.setColor(Color.green);
         }
-        if (map.haveFirstPlayerWon() && map.haveSecondPlayerWon()) {
+        if (map.havePlayerWon(First) && map.havePlayerWon(Second)) {
             message = "Dead heat";
             g.setColor(Color.pink);
         }
@@ -136,11 +139,11 @@ public class Board extends JPanel {
         g.drawString(message, (config.getWidthPS() - metrics.stringWidth(message)) / 2,
                config.getHeightPS() / 2);
 
-        String points1Count = "Player 1 result: " + map.getFirstPlayerScore();
+        String points1Count = "Player 1 result: " + map.getScore(First);
 
         g.drawString(points1Count, (config.getWidthPS() - metrics.stringWidth(message)) / 2,
                 config.getHeightPS() / 2 + 50);
-        String points2Count = "Player 2 result: " + map.getSecondPlayerScore();
+        String points2Count = "Player 2 result: " + map.getScore(Second);
 
         g.drawString(points2Count, (config.getWidthPS() - metrics.stringWidth(message)) / 2,
                 config.getHeightPS() / 2 + 100);
