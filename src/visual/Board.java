@@ -23,8 +23,12 @@ public class Board extends JPanel {
         return config.getSpeedTick();
     }
 
-    public boolean snakeIsLife() {
+    public boolean snake1IsLife() {
         return map.isSnakeAlive(First);
+    }
+
+    public boolean snake2IsLife() {
+        return map.isSnakeAlive(Second);
     }
 
     public Board(Configuration config) {
@@ -50,8 +54,12 @@ public class Board extends JPanel {
             draw(g);
             printScore(g);
             printParty(g);
+        } else if (config.getCountOfPlayers() == 2) {
+            config.setGameStoped(true);
         } else {
-            endGame(g);
+            if (config.getCurrentRound() != config.getCountOfRounds() + 1) {
+                endGame(g);
+            }
         }
     }
 
@@ -84,24 +92,32 @@ public class Board extends JPanel {
 
     private void printScore(Graphics g) {
 
-        String message = "Score: " + map.getScore(First);
+        String message1 = "Score: " + map.getScore(First);
+        String message2 = "Score: " + map.getScore(Second);
 
         Font font = new Font("Times New Roman", Font.BOLD, 25);
 
         g.setColor(Color.WHITE);
         g.setFont(font);
 
-        g.drawString(message, 30,config.getHeightPS() + (config.getPLine()) / 2);
+        g.drawString(message1, 30, config.getHeightPS() + (config.getPLine()) / 2);
+        g.drawString(message2, 150, config.getHeightPS() + (config.getPLine()) / 2);
     }
 
     private void printParty(Graphics g) {
 
-        String message = "PoisonTime: ";
+        String message1 = "PoisonTime: ";
+        String message2 = "PoisonTime: ";
 
-        if (map.isSnakePoisoned(First) && map.isSnakePoisoned(Second)) {
-            message += map.getPoisonTime(First);
+        if (map.isSnakePoisoned(First)) {
+            message1 += map.getPoisonTime(First);
         } else {
-            message += "Off";
+            message1 += "Off";
+        }
+        if (map.isSnakePoisoned(Second)) {
+            message2 += map.getPoisonTime(Second);
+        } else {
+            message2 += "Off";
         }
 
         Font font = new Font("Times New Roman", Font.BOLD, 25);
@@ -109,13 +125,14 @@ public class Board extends JPanel {
         g.setColor(Color.WHITE);
         g.setFont(font);
 
-        g.drawString(message, 200,config.getHeightPS() + (config.getPLine()) / 2);
+        g.drawString(message1, 400, config.getHeightPS() + (config.getPLine()) / 2);
+        g.drawString(message2, 600, config.getHeightPS() + (config.getPLine()) / 2);
     }
 
 
     private void endGame(Graphics g) {
 
-        String message = "Game over";
+        String message = "";
         g.setColor(Color.red);
 
         if (map.havePlayerWon(First)) {
@@ -151,6 +168,8 @@ public class Board extends JPanel {
 
         g.drawString(newGame, (config.getWidthPS() - metrics.stringWidth(message)) / 2,
                 config.getHeightPS() / 2 + 150);
+
+        config.setCurrentRound();
     }
 
     public void tick() {
@@ -162,11 +181,17 @@ public class Board extends JPanel {
 
         public void keyPressed(KeyEvent e) {
             int key = e.getKeyCode();
-            if (key == KeyEvent.VK_ENTER) {
+            if (config.getCountOfPlayers() == 2 && !map.isSnakeAlive(First) && !map.isSnakeAlive(Second)) {
+                config.setGameStoped(true);
+            } else if (key == KeyEvent.VK_ENTER && config.getCurrentRound() <= config.getCountOfRounds()
+                    && (!map.isSnakeAlive(First) || !map.isSnakeAlive(Second))) {
+                System.out.println(config.getCurrentRound());
                 grid = new Grid(config);
                 map = new Map(config, grid);
-
                 map.initialMap();
+            } else if (key == KeyEvent.VK_ENTER && (!map.isSnakeAlive(First) || !map.isSnakeAlive(Second))
+                    && config.getCurrentRound() > config.getCountOfRounds()) {
+                config.setGameStoped(true);
             }
             map.turnFirstSnake(key);
             map.turnSecondSnake(key);

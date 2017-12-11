@@ -15,6 +15,11 @@ public class Map {
     private Food food;
     private ArrayWalls walls;
     private Amanita amanita;
+    private int countOfPlayers;
+    private int countOfRounds;
+    private int currentRound;
+    private int firstPlayer;
+    private int secondPlayer;
 
     private boolean firstPlayerWon = false, secondPlayerWon = false;
     private int firstPlayerScore = 0, secondPlayerScore = 0;
@@ -23,11 +28,17 @@ public class Map {
     public Map(Configuration conf, Grid gr) {
         config = conf;
         grid = gr;
+        countOfPlayers = config.getCountOfPlayers();
         firstSnake = new Snake(grid, config);
         secondSnake = new Snake(grid, config);
         food = new Food(grid, config);
         walls = new ArrayWalls(grid, config);
         amanita = new Amanita(grid, config);
+        countOfRounds = config.getCountOfRounds();
+        currentRound = config.getCurrentRound();
+        firstPlayer = Integer.parseInt(config.getPlayers().substring(0, 1));
+        secondPlayer = Integer.parseInt(config.getPlayers().substring(2));
+
     }
 
     public boolean havePlayerWon(SnakeNumber number) {
@@ -103,25 +114,32 @@ public class Map {
     public void move() {
         amanita.updatePositionOfAmanita();
 
-        Point p_1 = firstSnake.move(); // возвращает удаленную из конца хвоста точку
-        Point p_2 = secondSnake.move(); // возвращает удаленную из конца хвоста точку
+        Point p_1 = firstSnake.move();
+        Point p_2 = secondSnake.move();
 
         if (!firstSnake.getIsAlive() && !secondSnake.getIsAlive()) {
-            if (firstPlayerScore > secondPlayerScore)
+            if (firstPlayerScore > secondPlayerScore) {
                 firstPlayerWon = true;
-            else if (secondPlayerScore > firstPlayerScore)
+                config.setScores(firstPlayer - 1, 3);
+            } else if (secondPlayerScore > firstPlayerScore) {
                 secondPlayerWon = true;
-            else
-                firstPlayerWon = secondPlayerWon = false;
+                config.setScores(secondPlayer - 1, 3);
+            } else {
+                firstPlayerWon = secondPlayerWon = true;
+                config.setScores(firstPlayer - 1, 1);
+                config.setScores(secondPlayer - 1, 1);
+            }
             return;
         }
 
         if (!firstSnake.getIsAlive()) {
             secondPlayerWon = true;
+            config.setScores(secondPlayer - 1, 3);
             return;
         }
         if (!secondSnake.getIsAlive()) {
             firstPlayerWon = true;
+            config.setScores(firstPlayer - 1, 3);
             return;
         }
 
