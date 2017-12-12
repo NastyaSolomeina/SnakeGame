@@ -69,9 +69,9 @@ public class Configuration {
         }
     }
 
-    public void setScores(int i, int s) {
-        int old = getScores(i);
-        this.scores.set(i, s + old);
+    public void incrementScore(int index, int score) {
+        int old = getScores(index);
+        this.scores.set(index, score + old);
     }
 
     public int getCountOfPlayers() {

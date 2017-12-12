@@ -41,6 +41,10 @@ public class Map {
 
     }
 
+    public Configuration getConfig() {
+        return config;
+    }
+
     public boolean havePlayerWon(SnakeNumber number) {
         return (number == First) ? firstPlayerWon : secondPlayerWon;
     }
@@ -120,26 +124,26 @@ public class Map {
         if (!firstSnake.getIsAlive() && !secondSnake.getIsAlive()) {
             if (firstPlayerScore > secondPlayerScore) {
                 firstPlayerWon = true;
-                config.setScores(firstPlayer - 1, 3);
+                config.incrementScore(firstPlayer - 1, 3);
             } else if (secondPlayerScore > firstPlayerScore) {
                 secondPlayerWon = true;
-                config.setScores(secondPlayer - 1, 3);
+                config.incrementScore(secondPlayer - 1, 3);
             } else {
                 firstPlayerWon = secondPlayerWon = true;
-                config.setScores(firstPlayer - 1, 1);
-                config.setScores(secondPlayer - 1, 1);
+                config.incrementScore(firstPlayer - 1, 1);
+                config.incrementScore(secondPlayer - 1, 1);
             }
             return;
         }
 
         if (!firstSnake.getIsAlive()) {
             secondPlayerWon = true;
-            config.setScores(secondPlayer - 1, 3);
+            config.incrementScore(secondPlayer - 1, 3);
             return;
         }
         if (!secondSnake.getIsAlive()) {
             firstPlayerWon = true;
-            config.setScores(firstPlayer - 1, 3);
+            config.incrementScore(firstPlayer - 1, 3);
             return;
         }
 

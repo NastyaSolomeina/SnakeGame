@@ -27,6 +27,8 @@ public class GridTests {
     @BeforeMethod
     public void initialization() {
         config = new Configuration();
+        config.setCountOfPlayers(2);
+        config.inicializationRounds();
         grid = new Grid(config);
         map = new Map(config, grid);
         walls = grid.getWalls();
