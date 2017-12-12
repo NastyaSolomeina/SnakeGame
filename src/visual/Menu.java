@@ -33,8 +33,7 @@ public class Menu extends JPanel {
     public class TestActionListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             System.out.println();
-            if (Integer.parseInt(bigField.getText()) > 1
-                    && !bigField.getText().equals("")) {
+            if (!bigField.getText().equals("") && Integer.parseInt(bigField.getText()) > 1) {
 
                 main.setChoice(false);
                 configuration.setCountOfPlayers(Integer.parseInt(bigField.getText()));
