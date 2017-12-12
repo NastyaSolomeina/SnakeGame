@@ -21,6 +21,8 @@ public class MapTests {
     @BeforeTest
     public void initialization() {
         Configuration config = new Configuration();
+        config.setCountOfPlayers(2);
+        config.inicializationRounds();
         Grid grid = new Grid(config);
         map = new Map(config, grid);
         snake = map.getSnake(First);
