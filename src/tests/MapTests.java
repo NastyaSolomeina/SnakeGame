@@ -53,7 +53,7 @@ public class MapTests {
         snake.setMovingDown(down);
         snake.setAlreadyTurned(turn);
 
-        map.turnFirstSnake(key);
+        map.turnSnake(key);
         Assert.assertTrue(map.getSnake(First).getAlreadyTurned());
     }
 

@@ -1,9 +1,9 @@
 package logic;
 
 import control.Configuration;
+import control.MoveSelector;
 import control.Point;
-
-import java.awt.event.KeyEvent;
+import control.SnakeMove;
 
 import static logic.SnakeNumber.First;
 
@@ -20,6 +20,7 @@ public class Map {
     private int currentRound;
     private int firstPlayer;
     private int secondPlayer;
+    private MoveSelector selector;
 
     private boolean firstPlayerWon = false, secondPlayerWon = false;
     private int firstPlayerScore = 0, secondPlayerScore = 0;
@@ -38,7 +39,7 @@ public class Map {
         currentRound = config.getCurrentRound();
         firstPlayer = Integer.parseInt(config.getPlayers().substring(0, 1));
         secondPlayer = Integer.parseInt(config.getPlayers().substring(2));
-
+        selector = new MoveSelector();
     }
 
     public Configuration getConfig() {
@@ -221,74 +222,12 @@ public class Map {
         return (k != -1);
     }
 
-    // Эти методы вместе с декларированием ключей нужно унести в класс Snake!!!
-    @Deprecated
-    public void turnFirstSnake(int key) {
-        if ((key == KeyEvent.VK_LEFT) && (!firstSnake.isMovingRight())
-                && !firstSnake.getAlreadyTurned()) {
-            firstSnake.setMovingLeft(true);
-            firstSnake.setMovingUp(false);
-            firstSnake.setMovingDown(false);
-            firstSnake.setAlreadyTurned(true);
-        }
-
-        if ((key == KeyEvent.VK_RIGHT) && (!firstSnake.isMovingLeft())
-                && !firstSnake.getAlreadyTurned()) {
-            firstSnake.setMovingRight(true);
-            firstSnake.setMovingUp(false);
-            firstSnake.setMovingDown(false);
-            firstSnake.setAlreadyTurned(true);
-        }
-
-        if ((key == KeyEvent.VK_UP) && (!firstSnake.isMovingDown())
-                && !firstSnake.getAlreadyTurned()) {
-            firstSnake.setMovingUp(true);
-            firstSnake.setMovingRight(false);
-            firstSnake.setMovingLeft(false);
-            firstSnake.setAlreadyTurned(true);
-        }
-
-        if ((key == KeyEvent.VK_DOWN) && (!firstSnake.isMovingUp())
-                && !firstSnake.getAlreadyTurned()) {
-            firstSnake.setMovingDown(true);
-            firstSnake.setMovingRight(false);
-            firstSnake.setMovingLeft(false);
-            firstSnake.setAlreadyTurned(true);
-        }
-    }
-
-    @Deprecated
-    public void turnSecondSnake(int key) {
-        if ((key == KeyEvent.VK_A) && (!secondSnake.isMovingRight())
-                && !secondSnake.getAlreadyTurned()) {
-            secondSnake.setMovingLeft(true);
-            secondSnake.setMovingUp(false);
-            secondSnake.setMovingDown(false);
-            secondSnake.setAlreadyTurned(true);
-        }
-
-        if ((key == KeyEvent.VK_D) && (!secondSnake.isMovingLeft())
-                && !secondSnake.getAlreadyTurned()) {
-            secondSnake.setMovingRight(true);
-            secondSnake.setMovingUp(false);
-            secondSnake.setMovingDown(false);
-            secondSnake.setAlreadyTurned(true);
-        }
-
-        if ((key == KeyEvent.VK_W) && (!secondSnake.isMovingDown())
-                && !secondSnake.getAlreadyTurned()) {
-            secondSnake.setMovingUp(true);
-            secondSnake.setMovingRight(false);
-            secondSnake.setMovingLeft(false);
-            secondSnake.setAlreadyTurned(true);
-        }
-
-        if ((key == KeyEvent.VK_S) && (!secondSnake.isMovingUp())
-                && !secondSnake.getAlreadyTurned()) {
-            secondSnake.setMovingDown(true);
-            secondSnake.setMovingRight(false);
-            secondSnake.setMovingLeft(false);
-            secondSnake.setAlreadyTurned(true);
+    public void turnSnake(int key) {
+        SnakeMove snakeMove = selector.select(key);
+        if (snakeMove != null) {
+            Snake snake = getSnake(snakeMove.getSnakeNumber());
+            snakeMove.changeDirection(snake);
         }
     }
 }
+

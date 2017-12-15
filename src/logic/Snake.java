@@ -89,6 +89,12 @@ public class Snake {
             direction = Direction.enumerate(key);
     }
 
+    public void setDirection(boolean left, boolean right, boolean up, boolean down) {
+        movingLeft = left;
+        movingRight = right;
+        movingUp = up;
+        movingDown = down;
+    }
 
     public boolean isMovingLeft()
     {

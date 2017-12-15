@@ -6,9 +6,9 @@ import visual.Result;
 
 import javax.swing.*;
 
-class Game extends JFrame {
+public class Game extends JFrame {
 
-    Game(Board board) {
+    public Game(Board board) {
         add(board);
         setResizable(false);
         pack();
@@ -18,7 +18,7 @@ class Game extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    Game(Menu menu) {
+    public Game(Menu menu) {
         add(menu);
         setResizable(false);
         pack();
@@ -28,7 +28,7 @@ class Game extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    Game(Result result) {
+    public Game(Result result) {
         add(result);
         setResizable(false);
         pack();

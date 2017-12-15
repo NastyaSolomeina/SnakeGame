@@ -1,6 +1,7 @@
 package visual;
 
 import control.Configuration;
+import control.MoveSelector;
 import logic.Grid;
 import logic.Map;
 
@@ -179,13 +180,18 @@ public class Board extends JPanel {
 
     private class Keys extends KeyAdapter {
 
+        private MoveSelector selector = new MoveSelector();
+
         public void keyPressed(KeyEvent e) {
             int key = e.getKeyCode();
+
+            selector.select(key);
+
+
             if (config.getCountOfPlayers() == 2 && !map.isSnakeAlive(First) && !map.isSnakeAlive(Second)) {
                 config.setGameStoped(true);
             } else if (key == KeyEvent.VK_ENTER && config.getCurrentRound() <= config.getCountOfRounds()
                     && (!map.isSnakeAlive(First) || !map.isSnakeAlive(Second))) {
-                System.out.println(config.getCurrentRound());
                 grid = new Grid(config);
                 map = new Map(config, grid);
                 map.initialMap();
@@ -193,8 +199,8 @@ public class Board extends JPanel {
                     && config.getCurrentRound() > config.getCountOfRounds()) {
                 config.setGameStoped(true);
             }
-            map.turnFirstSnake(key);
-            map.turnSecondSnake(key);
+            if (map.isSnakeAlive(First) && map.isSnakeAlive(Second))
+                map.turnSnake(key);
         }
     }
 

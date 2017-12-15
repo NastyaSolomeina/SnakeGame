@@ -13,13 +13,15 @@ public class Main implements ActionListener{
     private Board board;
 
     private static boolean choice = true;
-    Timer timer;
 
     public Main(Board board) {
         this.board = board;
     }
 
-    public static void setChoice(boolean choice) {
+    public Main() {
+    }
+
+    public void setChoice(boolean choice) {
         Main.choice = choice;
     }
 
@@ -51,7 +53,7 @@ public class Main implements ActionListener{
     }
 
     public void startGame() {
-        timer = new Timer(board.getSpeed(), this);
+        Timer timer = new Timer(board.getSpeed(), this);
         timer.start();
     }
 

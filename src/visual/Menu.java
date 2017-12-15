@@ -9,12 +9,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Menu extends JPanel {
-    JTextField bigField;
-    Main main;
-    Configuration configuration;
+    private JTextField bigField;
+    private Main main;
+    private Configuration configuration;
 
     public Menu(Configuration config) {
         configuration = config;
+        main = new Main();
         JButton startButton = new JButton("Start");
         add(startButton);
         setPreferredSize(new Dimension(config.getWidthPS(),
@@ -32,9 +33,7 @@ public class Menu extends JPanel {
 
     public class TestActionListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            System.out.println();
             if (!bigField.getText().equals("") && Integer.parseInt(bigField.getText()) > 1) {
-
                 main.setChoice(false);
                 configuration.setCountOfPlayers(Integer.parseInt(bigField.getText()));
                 configuration.setCountOfRounds();
