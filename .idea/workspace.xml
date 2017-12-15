@@ -1,19 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2010749a-e472-4daa-b1fd-22bc3d162af6" name="Default" comment="Refactor">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/control/MoveSelector.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/control/SnakeMove.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+    <list default="true" id="2010749a-e472-4daa-b1fd-22bc3d162af6" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/control/Game.java" afterPath="$PROJECT_DIR$/src/control/Game.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/control/Main.java" afterPath="$PROJECT_DIR$/src/control/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logic/Map.java" afterPath="$PROJECT_DIR$/src/logic/Map.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/logic/Snake.java" afterPath="$PROJECT_DIR$/src/logic/Snake.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/tests/MapTests.java" afterPath="$PROJECT_DIR$/src/tests/MapTests.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/visual/Board.java" afterPath="$PROJECT_DIR$/src/visual/Board.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/visual/Menu.java" afterPath="$PROJECT_DIR$/src/visual/Menu.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/visual/Result.java" afterPath="$PROJECT_DIR$/src/visual/Result.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -714,7 +703,14 @@
       <option name="project" value="LOCAL" />
       <updated>1513101937962</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Refactor">
+      <created>1513372271271</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1513372271271</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TestHistory">
